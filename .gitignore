@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+build/
+dist/
+
+# ETH/UCY source files and derived local dataset caches live on the data disk.
+data/
+datasets/
+
+# Keep experiment summaries, CSVs, and figures versioned; checkpoints are local artifacts.
+results/**/checkpoints/
+*.log
