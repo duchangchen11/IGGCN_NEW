@@ -1,7 +1,7 @@
 experiment:
   name: iggcn_sigma_diagnostic
   phase: fixed_sigma_diagnostic
-  status: paper_based_implementation_baseline_pending
+  status: baseline_gate_failed_stop
   seed: 42
   forbidden_sigma_modes:
     - learnable
@@ -58,6 +58,8 @@ fixed_sigma_sweep:
   values: [1, 2, 3, 4, 5]
   baseline_sigma: 3
   seeds: [42]
+  status: not_run_due_baseline_gate
+  stop_reason: "sigma=3 mean ADE/FDE exceeded the paper reference by more than 15 percent"
 
 training:
   batch_size: 128
