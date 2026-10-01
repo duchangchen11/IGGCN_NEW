@@ -1,0 +1,2392 @@
+[
+  {
+    "scene": "ETH",
+    "diagnostic_graphs": 64,
+    "valid_target_nodes": 100,
+    "training_nll_on_test_probe": 1671.49267578125,
+    "gaussian_statistics": {
+      "spatial_qk_valid": {
+        "count": 1584,
+        "min": -23030.44140625,
+        "p01": -20503.373828125,
+        "p05": -18591.138671875,
+        "median": -13655.9951171875,
+        "p95": -10336.3515625,
+        "p99": 7918.70929199224,
+        "max": 15324.1181640625,
+        "mean": -13506.089256980202,
+        "std": 3677.470540709688
+      },
+      "temporal_qk_valid": {
+        "count": 6400,
+        "min": 2026.2130126953125,
+        "p01": 2590.1779272460935,
+        "p05": 2849.1669921875,
+        "median": 4188.459716796875,
+        "p95": 5737.582202148437,
+        "p99": 5922.441850585938,
+        "max": 6714.3466796875,
+        "mean": 4246.448925437927,
+        "std": 930.1840892477652
+      },
+      "spatial_dcnn_output_valid": {
+        "count": 1584,
+        "min": -23031.0078125,
+        "p01": -20503.940234375,
+        "p05": -18591.705078125,
+        "median": -13656.5625,
+        "p95": -10336.9189453125,
+        "p99": 7918.142719726615,
+        "max": 15323.55078125,
+        "mean": -13506.656542614253,
+        "std": 3677.4704751796594
+      },
+      "temporal_dcnn_output_valid": {
+        "count": 6400,
+        "min": 2026.2880859375,
+        "p01": 2590.2531225585935,
+        "p05": 2849.2421875,
+        "median": 4188.534912109375,
+        "p95": 5737.657397460937,
+        "p99": 5922.517045898438,
+        "max": 6714.421875,
+        "mean": 4246.52412071228,
+        "std": 930.1840893385402
+      },
+      "spatial_gaussian_all_valid": {
+        "count": 1584,
+        "min": 0.0,
+        "p01": 0.0,
+        "p05": 0.0,
+        "median": 1.0,
+        "p95": 1.0,
+        "p99": 1.0,
+        "max": 1.0,
+        "mean": 0.7474116783852529,
+        "std": 0.43443077241643535
+      },
+      "temporal_gaussian_all_valid": {
+        "count": 6400,
+        "min": 0.0,
+        "p01": 0.0,
+        "p05": 0.0,
+        "median": 0.0,
+        "p95": 1.0,
+        "p99": 1.0,
+        "max": 1.0,
+        "mean": 0.12525560754016127,
+        "std": 0.3308156507072133
+      },
+      "spatial_gaussian_non_diagonal": {
+        "count": 784,
+        "min": 0.0,
+        "p01": 0.0,
+        "p05": 0.0,
+        "median": 0.0,
+        "p95": 1.0,
+        "p99": 1.0,
+        "max": 1.0,
+        "mean": 0.4896684930640824,
+        "std": 0.499777308898639
+      },
+      "temporal_gaussian_non_diagonal_raw": {
+        "count": 5600,
+        "min": 0.0,
+        "p01": 0.0,
+        "p05": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "p99": 0.0,
+        "max": 0.7835779190063477,
+        "mean": 0.0002921229030414474,
+        "std": 0.012089537591307443
+      },
+      "temporal_effective_non_diagonal_weight": {
+        "count": 2800,
+        "min": 0.0,
+        "p01": 0.0,
+        "p05": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "p99": 0.0,
+        "max": 0.7835779190063477,
+        "mean": 0.0004185378328999675,
+        "std": 0.01576797819570508
+      },
+      "effective_weight_saturation": {
+        "spatial_fraction_below_1e-4": 0.5102040767669678,
+        "spatial_fraction_at_least_0.99": 0.48852038383483887,
+        "temporal_fraction_below_1e-4": 0.9982143044471741,
+        "temporal_fraction_at_least_0.99": 0.0
+      }
+    },
+    "gradient_health": {
+      "parameter_tensors_with_grad": 58,
+      "finite_gradient_fraction": 1.0,
+      "nonzero_gradient_fraction": 0.5,
+      "global_l2_norm_across_parameter_tensors": 25341.017006938422,
+      "by_parameter": {
+        "spatial_embedding.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 9.959563255310059,
+          "nonzero": true
+        },
+        "spatial_embedding.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.18213972449302673,
+          "nonzero": true
+        },
+        "temporal_embedding.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 82.29981994628906,
+          "nonzero": true
+        },
+        "temporal_embedding.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 1.7413078546524048,
+          "nonzero": true
+        },
+        "spatial_query.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.16364611685276031,
+          "nonzero": true
+        },
+        "spatial_query.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.025935569778084755,
+          "nonzero": true
+        },
+        "spatial_key.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 1.1020269393920898,
+          "nonzero": true
+        },
+        "spatial_key.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_query.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 5.216756343841553,
+          "nonzero": true
+        },
+        "temporal_query.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.7668954730033875,
+          "nonzero": true
+        },
+        "temporal_key.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 61.729251861572266,
+          "nonzero": true
+        },
+        "temporal_key.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 2.4642970402055653e-06,
+          "nonzero": true
+        },
+        "spatial_deformable.layers.0.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.0.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.0.offset.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.0.offset.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.1.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.1.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.1.offset.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.1.offset.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.2.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.2.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.2.offset.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.2.offset.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.3.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.3.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.3.offset.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.3.offset.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.0.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.0.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 9.313225746154785e-10,
+          "nonzero": true
+        },
+        "temporal_deformable.layers.0.offset.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.0.offset.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.1.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.1.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 9.313225746154785e-10,
+          "nonzero": true
+        },
+        "temporal_deformable.layers.1.offset.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.1.offset.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.2.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.2.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 9.313225746154785e-10,
+          "nonzero": true
+        },
+        "temporal_deformable.layers.2.offset.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.2.offset.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.3.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.3.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 9.313225746154785e-10,
+          "nonzero": true
+        },
+        "temporal_deformable.layers.3.offset.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.3.offset.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_graph_weight.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 658.25830078125,
+          "nonzero": true
+        },
+        "temporal_graph_weight.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 653.72412109375,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.0.convolution.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 1851.2755126953125,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.0.convolution.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 6339.47265625,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.1.convolution.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 10411.396484375,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.1.convolution.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 4484.39892578125,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.2.convolution.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 7624.0419921875,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.2.convolution.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 5174.28076171875,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.3.convolution.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 9961.2880859375,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.3.convolution.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 7137.81689453125,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.4.convolution.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 11768.345703125,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.4.convolution.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 8556.9482421875,
+          "nonzero": true
+        },
+        "temporal_conv.output.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 4413.14990234375,
+          "nonzero": true
+        },
+        "temporal_conv.output.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 1704.851806640625,
+          "nonzero": true
+        }
+      }
+    }
+  },
+  {
+    "scene": "HOTEL",
+    "diagnostic_graphs": 64,
+    "valid_target_nodes": 103,
+    "training_nll_on_test_probe": 2.555474281311035,
+    "gaussian_statistics": {
+      "spatial_qk_valid": {
+        "count": 1688,
+        "min": -6685.96240234375,
+        "p01": -6508.98486328125,
+        "p05": -6191.38818359375,
+        "median": -6191.38818359375,
+        "p95": -3184.5766479492204,
+        "p99": -2975.68701171875,
+        "max": -2725.332275390625,
+        "mean": -5458.2006122896455,
+        "std": 1212.8712840345052
+      },
+      "temporal_qk_valid": {
+        "count": 6592,
+        "min": 613.0355834960938,
+        "p01": 616.1224676513672,
+        "p05": 641.19140625,
+        "median": 826.2907104492188,
+        "p95": 983.6257171630859,
+        "p99": 1009.2327752685547,
+        "max": 1030.943115234375,
+        "mean": 819.6249960464181,
+        "std": 105.50787697528136
+      },
+      "spatial_dcnn_output_valid": {
+        "count": 1688,
+        "min": -6685.7802734375,
+        "p01": -6508.802734375,
+        "p05": -6191.2060546875,
+        "median": -6191.2060546875,
+        "p95": -3184.3942749023454,
+        "p99": -2975.504638671875,
+        "max": -2725.14990234375,
+        "mean": -5458.018420178743,
+        "std": 1212.8713886741511
+      },
+      "temporal_dcnn_output_valid": {
+        "count": 6592,
+        "min": 613.1058959960938,
+        "p01": 616.1927801513672,
+        "p05": 641.26171875,
+        "median": 826.3610229492188,
+        "p95": 983.6960296630859,
+        "p99": 1009.3030877685547,
+        "max": 1031.013427734375,
+        "mean": 819.6953085464181,
+        "std": 105.50787697528136
+      },
+      "spatial_gaussian_all_valid": {
+        "count": 1688,
+        "min": 0.0,
+        "p01": 0.0,
+        "p05": 0.0,
+        "median": 1.0,
+        "p95": 1.0,
+        "p99": 1.0,
+        "max": 1.0,
+        "mean": 0.8116573157595577,
+        "std": 0.3909271966476815
+      },
+      "temporal_gaussian_all_valid": {
+        "count": 6592,
+        "min": 0.0,
+        "p01": 0.0,
+        "p05": 0.0,
+        "median": 0.0,
+        "p95": 1.0,
+        "p99": 1.0,
+        "max": 1.0,
+        "mean": 0.1250000023023316,
+        "std": 0.3307189130128831
+      },
+      "spatial_gaussian_non_diagonal": {
+        "count": 864,
+        "min": 0.0,
+        "p01": 0.0,
+        "p05": 0.0,
+        "median": 1.0,
+        "p95": 1.0,
+        "p99": 1.0,
+        "max": 1.0,
+        "mean": 0.6320342002339506,
+        "std": 0.48215951118723865
+      },
+      "temporal_gaussian_non_diagonal_raw": {
+        "count": 5768,
+        "min": 0.0,
+        "p01": 0.0,
+        "p05": 0.0,
+        "median": 0.0,
+        "p95": 6.3070278446285316e-15,
+        "p99": 7.776120725111468e-08,
+        "max": 5.9551575759542175e-06,
+        "mean": 2.6312361082756555e-09,
+        "std": 8.177652507444406e-08
+      },
+      "temporal_effective_non_diagonal_weight": {
+        "count": 2884,
+        "min": 0.0,
+        "p01": 0.0,
+        "p05": 0.0,
+        "median": 0.0,
+        "p95": 7.315937067850324e-15,
+        "p99": 1.8027437181933337e-11,
+        "max": 1.4736176012775104e-07,
+        "mean": 5.4328275000944744e-11,
+        "std": 2.745824739362057e-09
+      },
+      "effective_weight_saturation": {
+        "spatial_fraction_below_1e-4": 0.3541666567325592,
+        "spatial_fraction_at_least_0.99": 0.631944477558136,
+        "temporal_fraction_below_1e-4": 1.0,
+        "temporal_fraction_at_least_0.99": 0.0
+      }
+    },
+    "gradient_health": {
+      "parameter_tensors_with_grad": 58,
+      "finite_gradient_fraction": 1.0,
+      "nonzero_gradient_fraction": 0.5,
+      "global_l2_norm_across_parameter_tensors": 77.87195430796086,
+      "by_parameter": {
+        "spatial_embedding.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0015923675382509828,
+          "nonzero": true
+        },
+        "spatial_embedding.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.00012851515202783048,
+          "nonzero": true
+        },
+        "temporal_embedding.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 4.9350752817645116e-08,
+          "nonzero": true
+        },
+        "temporal_embedding.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 3.768893641620252e-09,
+          "nonzero": true
+        },
+        "spatial_query.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 4.437028110260144e-05,
+          "nonzero": true
+        },
+        "spatial_query.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 8.226317731896415e-06,
+          "nonzero": true
+        },
+        "spatial_key.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 9.007236803881824e-05,
+          "nonzero": true
+        },
+        "spatial_key.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_query.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 1.4174793783183759e-08,
+          "nonzero": true
+        },
+        "temporal_query.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 2.157827250215405e-09,
+          "nonzero": true
+        },
+        "temporal_key.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 6.713898415000585e-08,
+          "nonzero": true
+        },
+        "temporal_key.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 2.3578496163715375e-15,
+          "nonzero": true
+        },
+        "spatial_deformable.layers.0.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.0.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.0.offset.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.0.offset.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.1.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.1.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.1.offset.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.1.offset.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.2.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.2.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.2.offset.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.2.offset.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.3.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.3.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.3.offset.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.3.offset.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.0.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.0.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 5.442694905877232e-17,
+          "nonzero": true
+        },
+        "temporal_deformable.layers.0.offset.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.0.offset.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.1.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.1.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 5.442694905877232e-17,
+          "nonzero": true
+        },
+        "temporal_deformable.layers.1.offset.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.1.offset.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.2.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.2.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 5.442694905877232e-17,
+          "nonzero": true
+        },
+        "temporal_deformable.layers.2.offset.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.2.offset.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.3.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.3.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 5.442694905877232e-17,
+          "nonzero": true
+        },
+        "temporal_deformable.layers.3.offset.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.3.offset.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_graph_weight.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 3.056110382080078,
+          "nonzero": true
+        },
+        "temporal_graph_weight.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 3.0427348613739014,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.0.convolution.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 8.52138614654541,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.0.convolution.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 7.611954212188721,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.1.convolution.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 29.68476676940918,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.1.convolution.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 4.28204345703125,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.2.convolution.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 25.265161514282227,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.2.convolution.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 4.566197395324707,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.3.convolution.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 44.04130172729492,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.3.convolution.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 10.42179012298584,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.4.convolution.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 43.4780387878418,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.4.convolution.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 14.816359519958496,
+          "nonzero": true
+        },
+        "temporal_conv.output.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 12.972708702087402,
+          "nonzero": true
+        },
+        "temporal_conv.output.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 5.457291126251221,
+          "nonzero": true
+        }
+      }
+    }
+  },
+  {
+    "scene": "UNIV",
+    "diagnostic_graphs": 64,
+    "valid_target_nodes": 2639,
+    "training_nll_on_test_probe": 22.843233108520508,
+    "gaussian_statistics": {
+      "spatial_qk_valid": {
+        "count": 890040,
+        "min": 93.84404754638672,
+        "p01": 156.83978271484375,
+        "p05": 182.5303955078125,
+        "median": 260.11444091796875,
+        "p95": 342.5061340332031,
+        "p99": 395.9300231933594,
+        "max": 579.3759765625,
+        "mean": 258.6483532245494,
+        "std": 48.11096596811851
+      },
+      "temporal_qk_valid": {
+        "count": 168896,
+        "min": 327.67962646484375,
+        "p01": 359.6811126708984,
+        "p05": 373.42921447753906,
+        "median": 549.291259765625,
+        "p95": 713.2571411132812,
+        "p99": 730.4025299072265,
+        "max": 773.2122192382812,
+        "mean": 544.6492865944776,
+        "std": 126.50645510945245
+      },
+      "spatial_dcnn_output_valid": {
+        "count": 890040,
+        "min": 65.20011138916016,
+        "p01": 157.53016662597656,
+        "p05": 183.42977905273438,
+        "median": 260.9385070800781,
+        "p95": 343.6305236816406,
+        "p99": 396.62982177734375,
+        "max": 579.8143310546875,
+        "mean": 259.4547410980481,
+        "std": 48.148771042090615
+      },
+      "temporal_dcnn_output_valid": {
+        "count": 168896,
+        "min": 284.1714782714844,
+        "p01": 359.3778305053711,
+        "p05": 373.2208023071289,
+        "median": 549.1777954101562,
+        "p95": 713.1436767578125,
+        "p99": 730.2890655517577,
+        "max": 773.0987548828125,
+        "mean": 544.5152705535152,
+        "std": 126.53368606025667
+      },
+      "spatial_gaussian_all_valid": {
+        "count": 890040,
+        "min": 0.0,
+        "p01": 0.0,
+        "p05": 0.0,
+        "median": 2.9624846935929142e-24,
+        "p95": 1.0,
+        "p99": 1.0,
+        "max": 1.0,
+        "mean": 0.19394124958529627,
+        "std": 0.37741928848811773
+      },
+      "temporal_gaussian_all_valid": {
+        "count": 168896,
+        "min": 0.0,
+        "p01": 0.0,
+        "p05": 0.0,
+        "median": 0.0,
+        "p95": 1.0,
+        "p99": 1.0,
+        "max": 1.0,
+        "mean": 0.13527325030090318,
+        "std": 0.3381125581778804
+      },
+      "spatial_gaussian_non_diagonal": {
+        "count": 868928,
+        "min": 0.0,
+        "p01": 0.0,
+        "p05": 0.0,
+        "median": 4.1010912473153173e-26,
+        "p95": 1.0,
+        "p99": 1.0,
+        "max": 1.0,
+        "mean": 0.1743567588809396,
+        "std": 0.3601894703290352
+      },
+      "temporal_gaussian_non_diagonal_raw": {
+        "count": 147784,
+        "min": 0.0,
+        "p01": 0.0,
+        "p05": 0.0,
+        "median": 0.0,
+        "p95": 0.00012506191123975448,
+        "p99": 0.6085729002952576,
+        "max": 1.0,
+        "mean": 0.01174085748674647,
+        "std": 0.0925717480928961
+      },
+      "temporal_effective_non_diagonal_weight": {
+        "count": 73892,
+        "min": 0.0,
+        "p01": 0.0,
+        "p05": 0.0,
+        "median": 0.0,
+        "p95": 0.00012033062484988429,
+        "p99": 0.703134679198263,
+        "max": 0.9999953508377075,
+        "mean": 0.012088611532464487,
+        "std": 0.09537248684020047
+      },
+      "effective_weight_saturation": {
+        "spatial_fraction_below_1e-4": 0.710821807384491,
+        "spatial_fraction_at_least_0.99": 0.1306057572364807,
+        "temporal_fraction_below_1e-4": 0.9454473853111267,
+        "temporal_fraction_at_least_0.99": 0.001448059338144958
+      }
+    },
+    "gradient_health": {
+      "parameter_tensors_with_grad": 58,
+      "finite_gradient_fraction": 1.0,
+      "nonzero_gradient_fraction": 0.7931034482758621,
+      "global_l2_norm_across_parameter_tensors": 88.8889856773192,
+      "by_parameter": {
+        "spatial_embedding.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 3.919318199157715,
+          "nonzero": true
+        },
+        "spatial_embedding.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 1.1969910860061646,
+          "nonzero": true
+        },
+        "temporal_embedding.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.10090171545743942,
+          "nonzero": true
+        },
+        "temporal_embedding.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.008422442711889744,
+          "nonzero": true
+        },
+        "spatial_query.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 1.3991585969924927,
+          "nonzero": true
+        },
+        "spatial_query.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.47889795899391174,
+          "nonzero": true
+        },
+        "spatial_key.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 3.0102059841156006,
+          "nonzero": true
+        },
+        "spatial_key.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0669410452246666,
+          "nonzero": true
+        },
+        "temporal_query.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.03657250851392746,
+          "nonzero": true
+        },
+        "temporal_query.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.006574490573257208,
+          "nonzero": true
+        },
+        "temporal_key.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.1465073823928833,
+          "nonzero": true
+        },
+        "temporal_key.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 4.820446264375278e-09,
+          "nonzero": true
+        },
+        "spatial_deformable.layers.0.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.35529255867004395,
+          "nonzero": true
+        },
+        "spatial_deformable.layers.0.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0001585999270901084,
+          "nonzero": true
+        },
+        "spatial_deformable.layers.0.offset.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 30.48927879333496,
+          "nonzero": true
+        },
+        "spatial_deformable.layers.0.offset.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.048228710889816284,
+          "nonzero": true
+        },
+        "spatial_deformable.layers.1.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 2.806973213864694e-07,
+          "nonzero": true
+        },
+        "spatial_deformable.layers.1.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.00015860015992075205,
+          "nonzero": true
+        },
+        "spatial_deformable.layers.1.offset.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 3.405181701054971e-07,
+          "nonzero": true
+        },
+        "spatial_deformable.layers.1.offset.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 7.513863975461277e-10,
+          "nonzero": true
+        },
+        "spatial_deformable.layers.2.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.12464544922113419,
+          "nonzero": true
+        },
+        "spatial_deformable.layers.2.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0007981944363564253,
+          "nonzero": true
+        },
+        "spatial_deformable.layers.2.offset.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 1.680671215057373,
+          "nonzero": true
+        },
+        "spatial_deformable.layers.2.offset.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0034277283120900393,
+          "nonzero": true
+        },
+        "spatial_deformable.layers.3.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.029389336705207825,
+          "nonzero": true
+        },
+        "spatial_deformable.layers.3.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 1.1641532182693481e-09,
+          "nonzero": true
+        },
+        "spatial_deformable.layers.3.offset.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 1.346407175064087,
+          "nonzero": true
+        },
+        "spatial_deformable.layers.3.offset.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0027722488157451153,
+          "nonzero": true
+        },
+        "temporal_deformable.layers.0.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.0.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 3.6297269443569258e-12,
+          "nonzero": true
+        },
+        "temporal_deformable.layers.0.offset.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.0.offset.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.1.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.1.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 3.6297269443569258e-12,
+          "nonzero": true
+        },
+        "temporal_deformable.layers.1.offset.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.1.offset.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.2.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.2.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 3.6297269443569258e-12,
+          "nonzero": true
+        },
+        "temporal_deformable.layers.2.offset.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.2.offset.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.3.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.3.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 3.6297269443569258e-12,
+          "nonzero": true
+        },
+        "temporal_deformable.layers.3.offset.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.3.offset.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_graph_weight.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 4.098573207855225,
+          "nonzero": true
+        },
+        "temporal_graph_weight.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 2.3693227767944336,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.0.convolution.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 6.048691749572754,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.0.convolution.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 3.7531626224517822,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.1.convolution.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 24.092391967773438,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.1.convolution.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 4.529350757598877,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.2.convolution.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 33.268402099609375,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.2.convolution.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 5.551488399505615,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.3.convolution.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 46.76195526123047,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.3.convolution.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 12.845258712768555,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.4.convolution.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 46.354393005371094,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.4.convolution.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 20.14325714111328,
+          "nonzero": true
+        },
+        "temporal_conv.output.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 12.594165802001953,
+          "nonzero": true
+        },
+        "temporal_conv.output.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 7.8974609375,
+          "nonzero": true
+        }
+      }
+    }
+  },
+  {
+    "scene": "ZARA1",
+    "diagnostic_graphs": 64,
+    "valid_target_nodes": 268,
+    "training_nll_on_test_probe": 2.728792667388916,
+    "gaussian_statistics": {
+      "spatial_qk_valid": {
+        "count": 10224,
+        "min": -5096.35009765625,
+        "p01": -4726.087890625,
+        "p05": -3713.33056640625,
+        "median": -3224.49609375,
+        "p95": -2524.36328125,
+        "p99": -2360.180356445311,
+        "max": -2223.7578125,
+        "mean": -3188.933159817739,
+        "std": 382.91734701999985
+      },
+      "temporal_qk_valid": {
+        "count": 17152,
+        "min": -10865.98046875,
+        "p01": -9241.20470703125,
+        "p05": -8286.21572265625,
+        "median": -6564.120361328125,
+        "p95": -5471.021069335938,
+        "p99": -4164.123359374992,
+        "max": -2720.752197265625,
+        "mean": -6653.1542685209815,
+        "std": 906.4342268629683
+      },
+      "spatial_dcnn_output_valid": {
+        "count": 10224,
+        "min": -5096.47509765625,
+        "p01": -4726.212890625,
+        "p05": -3713.455322265625,
+        "median": -3224.620849609375,
+        "p95": -2524.488037109375,
+        "p99": -2360.305112304686,
+        "max": -2223.882568359375,
+        "mean": -3189.0579211454437,
+        "std": 382.9173679723152
+      },
+      "temporal_dcnn_output_valid": {
+        "count": 17152,
+        "min": -10866.126953125,
+        "p01": -9241.35119140625,
+        "p05": -8286.36220703125,
+        "median": -6564.267333984375,
+        "p95": -5471.168041992188,
+        "p99": -4164.270332031242,
+        "max": -2720.8994140625,
+        "mean": -6653.301216011617,
+        "std": 906.4341545098642
+      },
+      "spatial_gaussian_all_valid": {
+        "count": 10224,
+        "min": 0.0,
+        "p01": 0.0,
+        "p05": 0.0,
+        "median": 0.0,
+        "p95": 1.0,
+        "p99": 1.0,
+        "max": 1.0,
+        "mean": 0.31264155764677387,
+        "std": 0.46214733744675723
+      },
+      "temporal_gaussian_all_valid": {
+        "count": 17152,
+        "min": 0.0,
+        "p01": 0.0,
+        "p05": 0.0,
+        "median": 0.0,
+        "p95": 1.0,
+        "p99": 1.0,
+        "max": 1.0,
+        "mean": 0.12732426555674886,
+        "std": 0.33242209049471405
+      },
+      "spatial_gaussian_non_diagonal": {
+        "count": 8080,
+        "min": 0.0,
+        "p01": 0.0,
+        "p05": 0.0,
+        "median": 0.0,
+        "p95": 1.0,
+        "p99": 1.0,
+        "max": 1.0,
+        "mean": 0.1302533769035416,
+        "std": 0.33409790921549987
+      },
+      "temporal_gaussian_non_diagonal_raw": {
+        "count": 15008,
+        "min": 0.0,
+        "p01": 0.0,
+        "p05": 0.0,
+        "median": 0.0,
+        "p95": 1.699395705731621e-39,
+        "p99": 0.0026496212882921215,
+        "max": 0.999991774559021,
+        "mean": 0.002656303493427269,
+        "std": 0.04420395449308386
+      },
+      "temporal_effective_non_diagonal_weight": {
+        "count": 7504,
+        "min": 0.0,
+        "p01": 0.0,
+        "p05": 0.0,
+        "median": 0.0,
+        "p95": 7.937966169358946e-39,
+        "p99": 0.002014543262775998,
+        "max": 0.9997514486312866,
+        "mean": 0.0024019099164367414,
+        "std": 0.04261530895963129
+      },
+      "effective_weight_saturation": {
+        "spatial_fraction_below_1e-4": 0.8548267483711243,
+        "spatial_fraction_at_least_0.99": 0.1259901076555252,
+        "temporal_fraction_below_1e-4": 0.9782782793045044,
+        "temporal_fraction_at_least_0.99": 0.0003997868043370545
+      }
+    },
+    "gradient_health": {
+      "parameter_tensors_with_grad": 58,
+      "finite_gradient_fraction": 1.0,
+      "nonzero_gradient_fraction": 0.5862068965517241,
+      "global_l2_norm_across_parameter_tensors": 71.66277342636525,
+      "by_parameter": {
+        "spatial_embedding.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.12311717867851257,
+          "nonzero": true
+        },
+        "spatial_embedding.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.005962102208286524,
+          "nonzero": true
+        },
+        "temporal_embedding.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 1.0138521194458008,
+          "nonzero": true
+        },
+        "temporal_embedding.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.029469458386301994,
+          "nonzero": true
+        },
+        "spatial_query.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0071295141242444515,
+          "nonzero": true
+        },
+        "spatial_query.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0008248125086538494,
+          "nonzero": true
+        },
+        "spatial_key.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.025598689913749695,
+          "nonzero": true
+        },
+        "spatial_key.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 2.2232313767744927e-08,
+          "nonzero": true
+        },
+        "temporal_query.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.09618309140205383,
+          "nonzero": true
+        },
+        "temporal_query.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.010204946622252464,
+          "nonzero": true
+        },
+        "temporal_key.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.7441970705986023,
+          "nonzero": true
+        },
+        "temporal_key.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 3.593572373006282e-08,
+          "nonzero": true
+        },
+        "spatial_deformable.layers.0.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.0.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 2.1025636093296995e-11,
+          "nonzero": true
+        },
+        "spatial_deformable.layers.0.offset.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.0.offset.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.1.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.1.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 2.1025636093296995e-11,
+          "nonzero": true
+        },
+        "spatial_deformable.layers.1.offset.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.1.offset.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.2.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.2.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 2.1025636093296995e-11,
+          "nonzero": true
+        },
+        "spatial_deformable.layers.2.offset.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.2.offset.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.3.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.3.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 2.1025636093296995e-11,
+          "nonzero": true
+        },
+        "spatial_deformable.layers.3.offset.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.3.offset.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.0.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.0.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 4.563399658152889e-11,
+          "nonzero": true
+        },
+        "temporal_deformable.layers.0.offset.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.0.offset.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.1.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.1.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 4.563399658152889e-11,
+          "nonzero": true
+        },
+        "temporal_deformable.layers.1.offset.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.1.offset.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.2.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.2.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 4.563399658152889e-11,
+          "nonzero": true
+        },
+        "temporal_deformable.layers.2.offset.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.2.offset.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.3.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.3.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 4.563399658152889e-11,
+          "nonzero": true
+        },
+        "temporal_deformable.layers.3.offset.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.3.offset.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_graph_weight.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 2.860320806503296,
+          "nonzero": true
+        },
+        "temporal_graph_weight.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 2.8358564376831055,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.0.convolution.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 6.910353183746338,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.0.convolution.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 4.229617595672607,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.1.convolution.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 28.1257266998291,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.1.convolution.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 4.956701755523682,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.2.convolution.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 28.31315803527832,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.2.convolution.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 5.067680358886719,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.3.convolution.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 37.66739273071289,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.3.convolution.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 7.624951362609863,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.4.convolution.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 40.9869499206543,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.4.convolution.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 12.213966369628906,
+          "nonzero": true
+        },
+        "temporal_conv.output.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 9.612401008605957,
+          "nonzero": true
+        },
+        "temporal_conv.output.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 3.264312505722046,
+          "nonzero": true
+        }
+      }
+    }
+  },
+  {
+    "scene": "ZARA2",
+    "diagnostic_graphs": 64,
+    "valid_target_nodes": 216,
+    "training_nll_on_test_probe": 5.310394287109375,
+    "gaussian_statistics": {
+      "spatial_qk_valid": {
+        "count": 7680,
+        "min": -3441.238525390625,
+        "p01": 3604.9599609375,
+        "p05": 4273.90625,
+        "median": 5633.2333984375,
+        "p95": 8885.594140625,
+        "p99": 9856.67578125,
+        "max": 10780.53515625,
+        "mean": 5988.234172108273,
+        "std": 1566.4365355784537
+      },
+      "temporal_qk_valid": {
+        "count": 13824,
+        "min": -662.7617797851562,
+        "p01": -586.2244793701171,
+        "p05": -514.9791473388672,
+        "median": -250.06896209716797,
+        "p95": -104.7352523803711,
+        "p99": -84.74150619506834,
+        "max": -25.395307540893555,
+        "mean": -267.84318107297577,
+        "std": 120.98484310976379
+      },
+      "spatial_dcnn_output_valid": {
+        "count": 7680,
+        "min": -3441.02197265625,
+        "p01": 3605.176513671875,
+        "p05": 4274.123046875,
+        "median": 5633.4501953125,
+        "p95": 8885.8099609375,
+        "p99": 9856.8916015625,
+        "max": 10780.7509765625,
+        "mean": 5988.450885607303,
+        "std": 1566.4363852601748
+      },
+      "temporal_dcnn_output_valid": {
+        "count": 13824,
+        "min": -662.9977416992188,
+        "p01": -586.4604412841796,
+        "p05": -515.2151092529297,
+        "median": -250.3049545288086,
+        "p95": -104.97122955322266,
+        "p99": -84.9774833679199,
+        "max": -25.63128662109375,
+        "mean": -268.07892650117475,
+        "std": 120.98508748997773
+      },
+      "spatial_gaussian_all_valid": {
+        "count": 7680,
+        "min": 0.0,
+        "p01": 0.0,
+        "p05": 0.0,
+        "median": 0.0,
+        "p95": 1.0,
+        "p99": 1.0,
+        "max": 1.0,
+        "mean": 0.3218757357514683,
+        "std": 0.46719483225097175
+      },
+      "temporal_gaussian_all_valid": {
+        "count": 13824,
+        "min": 0.0,
+        "p01": 0.0,
+        "p05": 0.0,
+        "median": 0.0,
+        "p95": 1.0,
+        "p99": 1.0,
+        "max": 1.0,
+        "mean": 0.15089958402909917,
+        "std": 0.34835979213915885
+      },
+      "spatial_gaussian_non_diagonal": {
+        "count": 5952,
+        "min": 0.0,
+        "p01": 0.0,
+        "p05": 0.0,
+        "median": 0.0,
+        "p95": 1.0,
+        "p99": 1.0,
+        "max": 1.0,
+        "mean": 0.12500094935673323,
+        "std": 0.33071855612657697
+      },
+      "temporal_gaussian_non_diagonal_raw": {
+        "count": 12096,
+        "min": 0.0,
+        "p01": 0.0,
+        "p05": 0.0,
+        "median": 0.0,
+        "p95": 0.08299762569367886,
+        "p99": 0.9461724013090127,
+        "max": 0.9999810457229614,
+        "mean": 0.02959952460468477,
+        "std": 0.14484913872093744
+      },
+      "temporal_effective_non_diagonal_weight": {
+        "count": 6048,
+        "min": 0.0,
+        "p01": 0.0,
+        "p05": 0.0,
+        "median": 0.0,
+        "p95": 0.3734663888812054,
+        "p99": 0.9808110731840133,
+        "max": 0.9999810457229614,
+        "mean": 0.04414725758423401,
+        "std": 0.17826119036731206
+      },
+      "effective_weight_saturation": {
+        "spatial_fraction_below_1e-4": 0.8716397881507874,
+        "spatial_fraction_at_least_0.99": 0.125,
+        "temporal_fraction_below_1e-4": 0.8708663582801819,
+        "temporal_fraction_at_least_0.99": 0.007275131996721029
+      }
+    },
+    "gradient_health": {
+      "parameter_tensors_with_grad": 58,
+      "finite_gradient_fraction": 1.0,
+      "nonzero_gradient_fraction": 0.5862068965517241,
+      "global_l2_norm_across_parameter_tensors": 76.30820847051986,
+      "by_parameter": {
+        "spatial_embedding.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 1.5124237537384033,
+          "nonzero": true
+        },
+        "spatial_embedding.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.004365025088191032,
+          "nonzero": true
+        },
+        "temporal_embedding.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.21149811148643494,
+          "nonzero": true
+        },
+        "temporal_embedding.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.37017810344696045,
+          "nonzero": true
+        },
+        "spatial_query.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.012518209405243397,
+          "nonzero": true
+        },
+        "spatial_query.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0017149015329778194,
+          "nonzero": true
+        },
+        "spatial_key.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.2021559625864029,
+          "nonzero": true
+        },
+        "spatial_key.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 1.739854127436047e-08,
+          "nonzero": true
+        },
+        "temporal_query.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.6483180522918701,
+          "nonzero": true
+        },
+        "temporal_query.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.13261985778808594,
+          "nonzero": true
+        },
+        "temporal_key.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 1.1349477767944336,
+          "nonzero": true
+        },
+        "temporal_key.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 4.1884486989829384e-08,
+          "nonzero": true
+        },
+        "spatial_deformable.layers.0.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.0.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 7.275957614183426e-12,
+          "nonzero": true
+        },
+        "spatial_deformable.layers.0.offset.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.0.offset.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.1.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.1.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 7.275957614183426e-12,
+          "nonzero": true
+        },
+        "spatial_deformable.layers.1.offset.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.1.offset.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.2.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.2.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 7.275957614183426e-12,
+          "nonzero": true
+        },
+        "spatial_deformable.layers.2.offset.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.2.offset.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.3.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.3.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 7.275957614183426e-12,
+          "nonzero": true
+        },
+        "spatial_deformable.layers.3.offset.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_deformable.layers.3.offset.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.0.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.0.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 4.0745362639427185e-10,
+          "nonzero": true
+        },
+        "temporal_deformable.layers.0.offset.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.0.offset.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.1.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.1.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 4.0745362639427185e-10,
+          "nonzero": true
+        },
+        "temporal_deformable.layers.1.offset.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.1.offset.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.2.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.2.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 4.0745362639427185e-10,
+          "nonzero": true
+        },
+        "temporal_deformable.layers.2.offset.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.2.offset.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.3.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.3.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 4.0745362639427185e-10,
+          "nonzero": true
+        },
+        "temporal_deformable.layers.3.offset.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "temporal_deformable.layers.3.offset.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 0.0,
+          "nonzero": false
+        },
+        "spatial_graph_weight.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 5.804882526397705,
+          "nonzero": true
+        },
+        "temporal_graph_weight.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 5.764373302459717,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.0.convolution.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 12.898433685302734,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.0.convolution.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 2.5504181385040283,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.1.convolution.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 32.09425354003906,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.1.convolution.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 2.073746681213379,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.2.convolution.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 35.818050384521484,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.2.convolution.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 3.1042842864990234,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.3.convolution.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 42.0120964050293,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.3.convolution.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 5.984375476837158,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.4.convolution.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 34.30402374267578,
+          "nonzero": true
+        },
+        "temporal_conv.blocks.4.convolution.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 10.901766777038574,
+          "nonzero": true
+        },
+        "temporal_conv.output.weight": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 11.651983261108398,
+          "nonzero": true
+        },
+        "temporal_conv.output.bias": {
+          "has_gradient": true,
+          "finite": true,
+          "l2_norm": 4.44796895980835,
+          "nonzero": true
+        }
+      }
+    }
+  }
+]

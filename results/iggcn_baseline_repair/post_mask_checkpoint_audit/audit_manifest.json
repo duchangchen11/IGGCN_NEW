@@ -1,0 +1,19 @@
+{
+  "config": "/home/lrj/IGGCN_Project/configs/iggcn_sigma_diagnostic.yaml",
+  "config_sha256": "3258a7f4f4a4328a63bf56bf48b41fa192e6c326f665a8bc0054898d04b9438a",
+  "seed": 42,
+  "device": "cuda",
+  "sigma": 3,
+  "observed_frames": 8,
+  "predicted_frames": 12,
+  "raw_frame_stride": 10,
+  "sample_period_seconds": 0.4,
+  "sampling_count": 20,
+  "sampling_seed": 42,
+  "diagnostic_graphs_per_scene": 64,
+  "created_from_existing_checkpoints": true,
+  "output_directory": "results/iggcn_baseline_repair/post_mask_checkpoint_audit",
+  "model_source_commit": "124a06f7db2e4b6b61dba10f53cae580f3107446",
+  "model_source_sha256": "c7cfb4d030deb06fb46c0a17d51ee80bfaa77989eb5a1980db3d19a4c16fd47e",
+  "temporal_mask_at_evaluation": "causal lower triangle with prefix-cropped deformable processing"
+}
