@@ -80,6 +80,8 @@ training:
   output_coordinates: future_positions_relative_to_last_observation
   distribution_parameterization: bivariate_gaussian_mu_log_sigma_tanh_rho
   checkpoint_selection: minimum_validation_ADE_on_last_10_percent_of_training_timeline_per_component_with_19_window_purge
+  cudnn_deterministic: false
+  cudnn_benchmark: false
   implementation_assumptions:
     - "Paper omits graph tensor feature encoding details; each node uses 2D frame-to-frame displacement."
     - "Paper omits temporal graph mask placement; upper-triangular temporal mask is applied to Gaussian temporal adjacency before adding identity."
@@ -89,6 +91,7 @@ training:
     - "Paper omits the output coordinate parameterization; predict future offsets from the last observed position, which leaves ADE/FDE unchanged under translation."
     - "Paper does not state a checkpoint criterion; select minimum validation ADE from a chronological held-out portion of training clips, with a 19-window purge to avoid overlap."
     - "Paper does not specify batch ordering; use seeded node-count buckets so every graph window is retained while reducing padded spatial-graph work."
+    - "Seed 42 fixes model initialization and sample ordering; bitwise GPU-kernel determinism is disabled because the available deterministic cuDNN path was measured to be dramatically slower. The exact kernel policy is recorded in each run manifest."
 
 outputs:
   results_root: results/iggcn_sigma_diagnostic

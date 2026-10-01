@@ -19,6 +19,8 @@ The paper does not fully specify several choices needed for executable code: exa
 
 The implementation will preserve the paper's stated structure and equations: displacement node features; separate spatial and temporal embedding and Q/K projections; unscaled QK products; four residual 3×3 deformable-convolution layers per branch; fixed Gaussian similarity with an identity self-edge; spatial and temporal graph aggregation; a five-layer temporal convolutional predictor; and the bivariate Gaussian NLL. The exact assumptions chosen for the unspecified items are recorded in the experiment config and run manifest. There is no adaptive or learnable sigma, added network module, decoder replacement, or loss replacement.
 
+Training uses seed-controlled initialization and sample order, with cuDNN bitwise-deterministic algorithms disabled after a direct timing comparison showed a severe slowdown on the available GPU. The same kernel policy is used for every sigma and recorded in each run manifest.
+
 ## Reproduction gate
 
 Run the complete fixed `sigma=3` leave-one-scene-out baseline first. Compare its per-scene and mean ADE/FDE to the paper's ETH/UCY table. If the mean error is more than approximately 10–15% worse, or scene behavior is clearly anomalous, stop before running the sigma sweep and investigate the implementation and data protocol.

@@ -87,7 +87,7 @@ def set_seed(seed: int) -> None:
     np.random.seed(seed)
     torch.manual_seed(seed)
     torch.cuda.manual_seed_all(seed)
-    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.deterministic = False
     torch.backends.cudnn.benchmark = False
 
 
@@ -436,6 +436,7 @@ def train_fold(
         "ended_at_utc": utc_now(),
         "elapsed_seconds": time.monotonic() - start_clock,
         "device": str(device),
+        "torch_cudnn_deterministic": bool(torch.backends.cudnn.deterministic),
         "notes": "Paper-based implementation; assumptions are listed in the versioned YAML and SOURCE_AUDIT.md.",
     }
     completed.append(run_record)

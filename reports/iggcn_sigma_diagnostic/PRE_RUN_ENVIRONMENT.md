@@ -25,6 +25,8 @@ The system interpreter is Python 3.8.10 and does not have PyTorch installed. The
 
 The system-level `pytest` plugin autoload discovers an incompatible ROS plugin. Run the requested focused checks with `PYTEST_DISABLE_PLUGIN_AUTOLOAD=1` under this Conda interpreter.
 
+The random seed controls Python, NumPy, PyTorch initialization, and training-sample order. cuDNN deterministic algorithms are disabled (`benchmark=False`); on this RTX 3080, forcing deterministic cuDNN made one representative model update about 15 seconds versus about 0.05 seconds with the default kernel path. This trades bitwise repeatability for feasible runtime; the kernel policy is recorded in each run manifest and is identical across sigma runs.
+
 ## Data disk
 
 `/media/lrj/54926A1D926A0438` is mounted with about 1.8 TB available. Dataset files are stored under `/media/lrj/54926A1D926A0438/datasets/iggcn_eth_ucy/raw/`, outside Git.

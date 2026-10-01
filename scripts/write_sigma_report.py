@@ -209,6 +209,7 @@ def main() -> None:
 - Python 3.10.9、PyTorch 2.0.1+cu117、torchvision 0.15.2+cu117、NVIDIA GeForce RTX 3080 10 GB。完整环境记录见 `PRE_RUN_ENVIRONMENT.md`。
 - 实验配置：[`configs/iggcn_sigma_diagnostic.yaml`](../../configs/iggcn_sigma_diagnostic.yaml)。每次训练使用 4 场景训练、1 场景测试，8 帧 observed、12 帧预测、2.5 Hz；Adam、lr=0.01、每 50 epoch ×0.1、150 epoch、hidden=64、4 层 3×3 deformable convolution、5 层 TCN。
 - 验证集取每个训练 clip 时间轴最后 10%，并在训练侧留出 19 个重叠窗口；以 validation ADE 选 checkpoint。论文没有说明这一选模规则。Gaussian σ 始终是不可训练的固定常数；没有加入新模块、修改 decoder 或替换 loss。
+- Seed=42 固定初始化和样本顺序；cuDNN bitwise determinism 关闭、benchmark 关闭。实测开启确定性算法会使代表性更新耗时约 15 秒，默认 kernel 路径约 0.05 秒；此策略对所有 σ 一致，并写入 manifest。
 - 论文未规定的 node encoding、TCN 细节、activation、temporal mask 具体落点和坐标参数化均按版本化配置实现，属于复现假设。模型参数量为约 31.9K，与论文报告 32.5K 接近，但架构细节不完整仍限制逐行复现。
 
 ## 2. σ=3 baseline 与论文结果
