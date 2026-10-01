@@ -14,8 +14,14 @@ Programs, result tables, and plots are kept in separate directories. Raw dataset
 
 ## Dataset location
 
-Store ETH/UCY files on the data disk, under:
+Raw ETH/UCY files and manifests are stored on the data disk, under:
 
 `/media/lrj/54926A1D926A0438/datasets/iggcn_eth_ucy/`
 
-The exact raw-data subdirectory and checksums will be recorded in the experiment configuration and manifest after the dataset source is verified.
+The files are under `raw/`. Their pinned source revision, URLs, row counts, and SHA-256 checksums are recorded in the external `dataset_manifest.json`. Raw trajectories remain outside Git.
+
+## Paper source and implementation
+
+The model is reimplemented from the user-provided IGGCN article PDF because no author IGGCN implementation was found. The paper gives the main graph equations and training protocol, but leaves several tensor, TCN, and checkpoint details unspecified. Those choices are listed in `reports/iggcn_sigma_diagnostic/SOURCE_AUDIT.md` and the experiment YAML.
+
+The active branch is `exp/iggcn_sigma_diagnostic`. `scripts/train_eval_iggcn.py` runs fixed-sigma leave-one-scene-out folds; it accepts only sigma values 1 through 5. It writes metrics and per-target errors into `results/iggcn_sigma_diagnostic/` and keeps model checkpoints local under the ignored `checkpoints/` directory.
