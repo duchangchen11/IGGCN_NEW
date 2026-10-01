@@ -1,0 +1,60 @@
+{
+  "same_test_sample_ids_as_old_baseline": true,
+  "old_unique_sample_count": 34161,
+  "repaired_unique_sample_count": 34161,
+  "all_repaired_metrics_finite": true,
+  "fold_csv_recreated_from_per_sample_values": true,
+  "sigma": 3,
+  "seed": 42,
+  "per_scene": {
+    "ETH": {
+      "targets": 364,
+      "ADE": 1.039544274682527,
+      "FDE": 2.1009598333685364,
+      "best_epoch": 43
+    },
+    "HOTEL": {
+      "targets": 1197,
+      "ADE": 1.2018341497224798,
+      "FDE": 2.215791759449201,
+      "best_epoch": 51
+    },
+    "UNIV": {
+      "targets": 24334,
+      "ADE": 0.8138831454040656,
+      "FDE": 1.5699861999552447,
+      "best_epoch": 81
+    },
+    "ZARA1": {
+      "targets": 2356,
+      "ADE": 0.4383528201646331,
+      "FDE": 0.9740323829954785,
+      "best_epoch": 97
+    },
+    "ZARA2": {
+      "targets": 5910,
+      "ADE": 0.3383226297891111,
+      "FDE": 0.737123525182834,
+      "best_epoch": 131
+    }
+  },
+  "macro_scene_mean": {
+    "ADE": 0.7663874039525634,
+    "FDE": 1.519578740190259,
+    "ADE_to_paper_ratio": 2.2540805998604805,
+    "FDE_to_paper_ratio": 2.575557186763151,
+    "old_ADE": 0.7578095931294839,
+    "old_FDE": 1.493104974355099,
+    "constant_velocity_ADE": 0.6085352357088756,
+    "constant_velocity_FDE": 1.2416300629621762,
+    "paper_ADE": 0.34,
+    "paper_FDE": 0.59
+  },
+  "gate": {
+    "task_condition": "protocol confirmed, mean ADE/FDE near the paper magnitude, and no obvious per-scene anomaly",
+    "protocol_and_sampling": "frame period and direct-mean metric align; context-pedestrian inclusion remains unspecified",
+    "metrics_near_paper_magnitude": false,
+    "scene_anomaly": "HOTEL and UNIV remain worse than the same-split constant-velocity baseline",
+    "passed": false
+  }
+}

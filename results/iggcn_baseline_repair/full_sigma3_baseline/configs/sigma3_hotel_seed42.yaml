@@ -1,0 +1,101 @@
+experiment:
+  name: iggcn_baseline_repair
+  phase: fixed_sigma_baseline_repair
+  status: causal_temporal_graph_repair_validation
+  seed: 42
+  forbidden_sigma_modes:
+    - learnable
+    - adaptive
+    - state_conditioned
+
+repository:
+  remote: https://github.com/duchangchen11/IGGCN_NEW.git
+  baseline_branch: main
+  experiment_branch: fix/iggcn_baseline_reproduction
+
+dataset:
+  name: ETH_UCY
+  raw_root: /media/lrj/54926A1D926A0438/datasets/iggcn_eth_ucy/raw
+  source_repository: https://github.com/abduallahmohamed/Social-STGCNN
+  source_commit: 333d3a57b4d2705e129b21aefefa09c79b2b9ae1
+  scenes:
+    ETH:
+      - biwi_eth.txt
+    HOTEL:
+      - biwi_hotel.txt
+    UNIV:
+      - students001.txt
+      - students003.txt
+    ZARA1:
+      - crowds_zara01.txt
+    ZARA2:
+      - crowds_zara02.txt
+  protocol: leave_one_scene_out
+  training_scenes_per_fold: 4
+  test_scenes_per_fold: 1
+  sample_period_seconds: 0.4
+  raw_frame_stride: 10
+  observed_frames: 8
+  predicted_frames: 12
+  sliding_window_stride: 1
+  coordinate_unit: meters
+  graph_window_stride: 1
+
+state_features:
+  observed_history_only: true
+  v_last: norm_of_last_observed_step_divided_by_sample_period
+  v_mean: mean_observed_step_speed
+  a_mean: mean_norm_of_observed_velocity_differences_divided_by_sample_period
+  turning: cumulative_absolute_wrapped_heading_change_in_radians
+  density:
+    definition: mean_neighbor_count_within_radius_per_observed_frame
+    radius_meters: 2.0
+    boundary: inclusive
+    exclude_target: true
+  quantile_groups: [0.33, 0.66]
+
+fixed_sigma_sweep:
+  values: [3]
+  baseline_sigma: 3
+  seeds: [42]
+  status: sigma_3_repair_validation_only
+  stop_reason: "Do not run a sigma sweep until the repaired baseline passes the reproduction gate."
+
+training:
+  batch_size: 128
+  node_count_bucket_multiplier: 4
+  optimizer: Adam
+  learning_rate: 0.01
+  learning_rate_decay_factor: 0.1
+  learning_rate_decay_every_epochs: 50
+  epochs: 150
+  hidden_dimension: 64
+  deformable_convolution_layers: 4
+  deformable_kernel_size: 3
+  tcn_layers: 5
+  tcn_channels: 24
+  tcn_kernel_size: 3
+  temporal_dilations: [1, 2, 4, 8, 16]
+  temporal_causal_padding: true
+  temporal_graph_mask: lower_triangular_source_at_or_before_target_with_causal_prefix_deformable_processing
+  node_features: observed_position_differences_per_frame
+  output_coordinates: future_positions_relative_to_last_observation
+  distribution_parameterization: bivariate_gaussian_mu_log_sigma_tanh_rho
+  checkpoint_selection: minimum_validation_ADE_on_last_10_percent_of_training_timeline_per_component_with_19_window_purge
+  cudnn_deterministic: false
+  cudnn_benchmark: false
+  implementation_assumptions:
+    - "Paper omits graph tensor feature encoding details; each node uses 2D frame-to-frame displacement."
+    - "Paper states temporal causality but describes an upper-triangular matrix without reconciling the axes. In this implementation temporal QK uses rows=target time and columns=source time, so source<=target requires a lower triangle; the deformable branch is run on causal prefixes to prevent future query rows leaking through its 2-D convolution."
+    - "Paper omits deformable offset convolution initialization and activation; zero-initialized offset predictor and residual deformable convolution are used without an added activation."
+    - "Paper omits TCN channel/kernel/dilation and output projection; use 24 channels, five causal kernel-3 layers with dilations 1,2,4,8,16 and a direct bivariate Gaussian output head. The width keeps the implementation parameter count close to the paper's reported 32.5K."
+    - "Paper omits delta; use ReLU after spatial-temporal graph aggregation."
+    - "Paper omits the output coordinate parameterization; predict future offsets from the last observed position, which leaves ADE/FDE unchanged under translation."
+    - "Paper does not state a checkpoint criterion; select minimum validation ADE from a chronological held-out portion of training clips, with a 19-window purge to avoid overlap."
+    - "Paper does not specify batch ordering; use seeded node-count buckets so every graph window is retained while reducing padded spatial-graph work."
+    - "Seed 42 fixes model initialization and sample ordering; bitwise GPU-kernel determinism is disabled because the available deterministic cuDNN path was measured to be dramatically slower. The exact kernel policy is recorded in each run manifest."
+
+outputs:
+  results_root: results/iggcn_baseline_repair/full_sigma3_baseline
+  reports_root: reports/iggcn_baseline_repair
+  local_checkpoints: results/iggcn_baseline_repair/full_sigma3_baseline/checkpoints
