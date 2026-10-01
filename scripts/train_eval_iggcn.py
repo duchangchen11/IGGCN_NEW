@@ -22,6 +22,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT))
 
 from research.iggcn.graph_data import (
+    NodeCountBucketBatchSampler,
     SceneGraphDataset,
     collate_scene_graphs,
     chronological_train_validation_split,
@@ -114,17 +115,31 @@ def load_component_windows(config: dict, data_root: Path, selected_scenes: list[
     )
 
 
-def make_loader(dataset, batch_size: int, shuffle: bool, seed: int, device: torch.device):
-    generator = torch.Generator()
-    generator.manual_seed(seed)
+def make_loader(
+    dataset,
+    batch_size: int,
+    shuffle: bool,
+    seed: int,
+    device: torch.device,
+    bucket_multiplier: int = 20,
+):
+    if shuffle:
+        return DataLoader(
+            dataset,
+            batch_sampler=NodeCountBucketBatchSampler(
+                dataset, batch_size, seed, bucket_multiplier
+            ),
+            num_workers=0,
+            pin_memory=device.type == "cuda",
+            collate_fn=collate_scene_graphs,
+        )
     return DataLoader(
         dataset,
         batch_size=batch_size,
-        shuffle=shuffle,
+        shuffle=False,
         num_workers=0,
         pin_memory=device.type == "cuda",
         collate_fn=collate_scene_graphs,
-        generator=generator,
     )
 
 
@@ -309,7 +324,14 @@ def train_fold(
     validation_dataset = SceneGraphDataset(training_windows, validation_indices)
     test_dataset = SceneGraphDataset(test_windows, list(range(len(test_windows))))
     batch_size = int(training_cfg["batch_size"])
-    train_loader = make_loader(train_dataset, batch_size, True, seed, device)
+    train_loader = make_loader(
+        train_dataset,
+        batch_size,
+        True,
+        seed,
+        device,
+        int(training_cfg["node_count_bucket_multiplier"]),
+    )
     validation_loader = make_loader(
         validation_dataset, batch_size, False, seed, device
     )

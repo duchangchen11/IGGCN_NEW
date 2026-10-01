@@ -61,6 +61,7 @@ fixed_sigma_sweep:
 
 training:
   batch_size: 128
+  node_count_bucket_multiplier: 4
   optimizer: Adam
   learning_rate: 0.01
   learning_rate_decay_factor: 0.1
@@ -87,6 +88,7 @@ training:
     - "Paper omits delta; use ReLU after spatial-temporal graph aggregation."
     - "Paper omits the output coordinate parameterization; predict future offsets from the last observed position, which leaves ADE/FDE unchanged under translation."
     - "Paper does not state a checkpoint criterion; select minimum validation ADE from a chronological held-out portion of training clips, with a 19-window purge to avoid overlap."
+    - "Paper does not specify batch ordering; use seeded node-count buckets so every graph window is retained while reducing padded spatial-graph work."
 
 outputs:
   results_root: results/iggcn_sigma_diagnostic

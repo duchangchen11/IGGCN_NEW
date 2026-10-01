@@ -122,6 +122,45 @@ class SceneGraphDataset(Dataset):
         return self.windows[self.indices[item]]
 
 
+class NodeCountBucketBatchSampler:
+    """Shuffle similarly sized graphs together to reduce zero-node padding."""
+
+    def __init__(
+        self,
+        dataset: SceneGraphDataset,
+        batch_size: int,
+        seed: int,
+        bucket_multiplier: int = 4,
+    ) -> None:
+        self.dataset = dataset
+        self.batch_size = batch_size
+        self.seed = seed
+        self.bucket_size = max(batch_size, batch_size * bucket_multiplier)
+        self.epoch = 0
+        self.node_counts = np.asarray(
+            [len(dataset[index].pedestrian_ids) for index in range(len(dataset))],
+            dtype=np.int64,
+        )
+
+    def __len__(self) -> int:
+        return int(np.ceil(len(self.dataset) / self.batch_size))
+
+    def __iter__(self):
+        rng = np.random.default_rng(self.seed + self.epoch)
+        self.epoch += 1
+        sorted_indices = np.argsort(self.node_counts, kind="stable")
+        batches = []
+        for start in range(0, len(sorted_indices), self.bucket_size):
+            bucket = sorted_indices[start : start + self.bucket_size].copy()
+            rng.shuffle(bucket)
+            batches.extend(
+                bucket[index : index + self.batch_size].tolist()
+                for index in range(0, len(bucket), self.batch_size)
+            )
+        rng.shuffle(batches)
+        yield from batches
+
+
 def collate_scene_graphs(items: list[SceneGraphWindow]) -> dict:
     batch_size = len(items)
     observed_steps = items[0].observed_xy.shape[1]
