@@ -1,0 +1,56 @@
+{
+  "status": "passed",
+  "run_count": 10,
+  "expected_run_count": 10,
+  "run_keys_complete": true,
+  "all_sigma_3": true,
+  "all_seed_42": true,
+  "all_epochs_150": true,
+  "parameter_count_values": [
+    31940
+  ],
+  "initial_state_sha256_values": [
+    "4d905e592846b9b8fa3875a71c12a9092270c25f7731cfd269c24ae3e4e35f17"
+  ],
+  "target_counts_by_scene": {
+    "ETH": 364,
+    "HOTEL": 1197,
+    "UNIV": 24334,
+    "ZARA1": 2356,
+    "ZARA2": 5910
+  },
+  "paired_sample_ids_equal_by_scene": {
+    "ETH": true,
+    "HOTEL": true,
+    "UNIV": true,
+    "ZARA1": true,
+    "ZARA2": true
+  },
+  "paired_graph_window_counts_equal_by_scene": {
+    "ETH": true,
+    "HOTEL": true,
+    "UNIV": true,
+    "ZARA1": true,
+    "ZARA2": true
+  },
+  "paired_effective_configs_equal_except_mask_and_output_paths": {
+    "ETH": true,
+    "HOTEL": true,
+    "UNIV": true,
+    "ZARA1": true,
+    "ZARA2": true
+  },
+  "all_errors_finite": true,
+  "fixed_sigma_scalar_present": true,
+  "forbidden_module_tokens_found": [],
+  "one_shared_model_source": "research/iggcn/model.py",
+  "model_source_sha256": "2e24669cab4c8c8d2755ca768f66d6ae0406d75e059ce6a0bbf2f0247c57df02",
+  "gaussian_formula_source_sha256": "155d13ea21b5f08150934d3f2e1d32265bc08578fb20f6cba902bc2a84d15c52",
+  "temporal_mask_direction_is_only_model_behavior_switch": true,
+  "triu_macro_ADE": 0.7547130700433111,
+  "tril_macro_ADE": 0.7596325432713311,
+  "triu_macro_FDE": 1.4900610533728875,
+  "tril_macro_FDE": 1.5006251040935317,
+  "cv_id_alignment_verified": true,
+  "adaptive_sigma_used": false
+}

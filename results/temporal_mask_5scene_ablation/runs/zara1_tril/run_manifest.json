@@ -1,0 +1,39 @@
+[
+  {
+    "run_id": "sigma3_zara1_seed42",
+    "sigma": 3,
+    "seed": 42,
+    "temporal_mask_direction": "tril",
+    "test_scene": "ZARA1",
+    "ADE": 0.42748833258900354,
+    "FDE": 0.9454738195034468,
+    "best_epoch": 86,
+    "best_validation_ADE": 0.47651516066657174,
+    "test_targets": 2356,
+    "dataset": "ETH_UCY",
+    "training_scenes": [
+      "ETH",
+      "HOTEL",
+      "UNIV",
+      "ZARA2"
+    ],
+    "graph_windows_train": 2281,
+    "graph_windows_validation": 267,
+    "graph_windows_test": 705,
+    "epoch": 150,
+    "epochs": 150,
+    "parameter_count": 31940,
+    "initial_state_sha256": "4d905e592846b9b8fa3875a71c12a9092270c25f7731cfd269c24ae3e4e35f17",
+    "temporal_gaussian_stats_path": "/home/lrj/IGGCN_Project/results/temporal_mask_5scene_ablation/runs/zara1_tril/temporal_gaussian_statistics.csv",
+    "checkpoint": "/home/lrj/IGGCN_Project/results/temporal_mask_5scene_ablation/runs/zara1_tril/checkpoints/sigma3_zara1_seed42.pt",
+    "config_path": "/home/lrj/IGGCN_Project/results/temporal_mask_5scene_ablation/runs/zara1_tril/configs/sigma3_zara1_seed42.yaml",
+    "git_commit": "95411ba281c3723720c0cfc515cf60dee9994a72",
+    "git_dirty_at_run": true,
+    "started_at_utc": "2026-10-02T10:29:45.183332+00:00",
+    "ended_at_utc": "2026-10-02T10:39:57.703575+00:00",
+    "elapsed_seconds": 612.5202563909988,
+    "device": "cuda",
+    "torch_cudnn_deterministic": false,
+    "notes": "Paper-based implementation; assumptions are listed in the versioned YAML and SOURCE_AUDIT.md."
+  }
+]

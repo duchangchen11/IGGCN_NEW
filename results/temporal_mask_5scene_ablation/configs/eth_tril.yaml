@@ -1,0 +1,134 @@
+experiment:
+  name: iggcn_temporal_mask_5scene_ablation
+  phase: controlled_temporal_mask_ablation
+  status: running_raw_data_ablation
+  seed: 42
+  forbidden_sigma_modes:
+  - learnable
+  - adaptive
+  - state_conditioned
+  mask_directions:
+  - triu
+  - tril
+  test_scene: ETH
+  temporal_mask_direction: tril
+repository:
+  remote: https://github.com/duchangchen11/IGGCN_NEW.git
+  baseline_branch: main
+  experiment_branch: exp/temporal_mask_5scene_ablation
+dataset:
+  name: ETH_UCY
+  raw_root: /media/lrj/54926A1D926A0438/datasets/iggcn_eth_ucy/raw
+  source_repository: https://github.com/abduallahmohamed/Social-STGCNN
+  source_commit: 333d3a57b4d2705e129b21aefefa09c79b2b9ae1
+  scenes:
+    ETH:
+    - biwi_eth.txt
+    HOTEL:
+    - biwi_hotel.txt
+    UNIV:
+    - students001.txt
+    - students003.txt
+    ZARA1:
+    - crowds_zara01.txt
+    ZARA2:
+    - crowds_zara02.txt
+  protocol: leave_one_scene_out
+  training_scenes_per_fold: 4
+  test_scenes_per_fold: 1
+  sample_period_seconds: 0.4
+  raw_frame_stride: 10
+  observed_frames: 8
+  predicted_frames: 12
+  sliding_window_stride: 1
+  coordinate_unit: meters
+  graph_window_stride: 1
+  raw_sha256:
+    biwi_eth.txt: cf8d3fd342a15f409ebc2a1fc76b91a0f06390bd21f1e11410f3859331ab082b
+    biwi_hotel.txt: 9caa771bb9153d6b809dd0916b6f86761b641e6bbb15e766c1de3133fbbb7fcf
+    students001.txt: a6d87f278d94136fe39b8be91555487a29ac77259ae403b9dba2d5c18caf7b5b
+    students003.txt: e25798b660634330aa89f8bb259425de720e84d0873902726c1d1f4ccff21d6c
+    crowds_zara01.txt: 1147a1962a09abfb86f28c6cddcac862e095a0cf129b3016385b69eacdd09d85
+    crowds_zara02.txt: 8a649d0f8c9ae75c87c4d23a85f892786b0aa30266e996c7be03e69dafff22ff
+state_features:
+  observed_history_only: true
+  v_last: norm_of_last_observed_step_divided_by_sample_period
+  v_mean: mean_observed_step_speed
+  a_mean: mean_norm_of_observed_velocity_differences_divided_by_sample_period
+  turning: cumulative_absolute_wrapped_heading_change_in_radians
+  density:
+    definition: mean_neighbor_count_within_radius_per_observed_frame
+    radius_meters: 2.0
+    boundary: inclusive
+    exclude_target: true
+  quantile_groups:
+  - 0.33
+  - 0.66
+fixed_sigma_sweep:
+  values:
+  - 3
+  baseline_sigma: 3
+  seeds:
+  - 42
+  status: sigma_3_repair_validation_only
+  stop_reason: Do not run a sigma sweep until the repaired baseline passes the reproduction
+    gate.
+training:
+  batch_size: 128
+  node_count_bucket_multiplier: 4
+  optimizer: Adam
+  learning_rate: 0.01
+  learning_rate_decay_factor: 0.1
+  learning_rate_decay_every_epochs: 50
+  epochs: 150
+  hidden_dimension: 64
+  deformable_convolution_layers: 4
+  deformable_kernel_size: 3
+  tcn_layers: 5
+  tcn_channels: 24
+  tcn_kernel_size: 3
+  temporal_dilations:
+  - 1
+  - 2
+  - 4
+  - 8
+  - 16
+  temporal_causal_padding: true
+  temporal_graph_mask: selected exclusively by temporal_mask_direction; rows=target
+    time, columns=source time
+  node_features: observed_position_differences_per_frame
+  output_coordinates: future_positions_relative_to_last_observation
+  distribution_parameterization: bivariate_gaussian_mu_log_sigma_tanh_rho
+  checkpoint_selection: minimum_validation_ADE_on_last_10_percent_of_training_timeline_per_component_with_19_window_purge
+  cudnn_deterministic: false
+  cudnn_benchmark: false
+  implementation_assumptions:
+  - Paper omits graph tensor feature encoding details; each node uses 2D frame-to-frame
+    displacement.
+  - Paper states temporal causality but describes an upper-triangular matrix without
+    reconciling axes. Temporal QK rows are target times and columns are source times;
+    tril keeps source<=target. The controlled ablation preserves the same causal-prefix
+    deformable processing and changes only the binary mask direction.
+  - Paper omits deformable offset convolution initialization and activation; zero-initialized
+    offset predictor and residual deformable convolution are used without an added
+    activation.
+  - Paper omits TCN channel/kernel/dilation and output projection; use 24 channels,
+    five causal kernel-3 layers with dilations 1,2,4,8,16 and a direct bivariate Gaussian
+    output head. The width keeps the implementation parameter count close to the paper's
+    reported 32.5K.
+  - Paper omits delta; use ReLU after spatial-temporal graph aggregation.
+  - Paper omits the output coordinate parameterization; predict future offsets from
+    the last observed position, which leaves ADE/FDE unchanged under translation.
+  - Paper does not state a checkpoint criterion; select minimum validation ADE from
+    a chronological held-out portion of training clips, with a 19-window purge to
+    avoid overlap.
+  - Paper does not specify batch ordering; use seeded node-count buckets so every
+    graph window is retained while reducing padded spatial-graph work.
+  - Seed 42 fixes model initialization and sample ordering; bitwise GPU-kernel determinism
+    is disabled because the available deterministic cuDNN path was measured to be
+    dramatically slower. The exact kernel policy is recorded in each run manifest.
+  temporal_mask_direction: tril
+outputs:
+  results_root: results/temporal_mask_5scene_ablation/runs/eth_tril
+  reports_root: reports/temporal_mask_5scene_ablation
+  local_checkpoints: results/temporal_mask_5scene_ablation/runs/eth_tril/checkpoints

@@ -405,25 +405,46 @@ def write_report(summary: pd.DataFrame, paired: pd.DataFrame, validation: dict, 
     tail_scene_count_fde = int((paired["FDE_delta_p90"] < 0).sum())
     if min(median_scene_count_ade, median_scene_count_fde) >= 4:
         distribution_conclusion = (
-            f"Paired median improves in {median_scene_count_ade}/5 ADE and "
-            f"{median_scene_count_fde}/5 FDE scenes, so the central error distribution improves broadly; "
-            f"p90 improves in {tail_scene_count_ade}/5 ADE and {tail_scene_count_fde}/5 FDE scenes."
+            f"配对中位数在 ADE {median_scene_count_ade}/5、FDE {median_scene_count_fde}/5 场景改善，主体误差分布整体向好；"
+            f"p90 在 ADE {tail_scene_count_ade}/5、FDE {tail_scene_count_fde}/5 场景改善。"
         )
     elif min(tail_scene_count_ade, tail_scene_count_fde) >= 4 and max(median_scene_count_ade, median_scene_count_fde) <= 1:
         distribution_conclusion = (
-            f"Paired p90 improves in {tail_scene_count_ade}/5 ADE and {tail_scene_count_fde}/5 FDE scenes, "
-            f"while medians improve in only {median_scene_count_ade}/5 ADE and {median_scene_count_fde}/5 FDE scenes; "
-            "the gain is concentrated in the high-error tail."
+            f"配对 p90 在 ADE {tail_scene_count_ade}/5、FDE {tail_scene_count_fde}/5 场景改善，"
+            f"但中位数仅在 ADE {median_scene_count_ade}/5、FDE {median_scene_count_fde}/5 场景改善；"
+            "收益主要集中在高误差 tail。"
         )
     else:
         distribution_conclusion = (
-            f"The distribution is mixed: paired medians improve in {median_scene_count_ade}/5 ADE and "
-            f"{median_scene_count_fde}/5 FDE scenes, while p90 improves in {tail_scene_count_ade}/5 ADE "
-            f"and {tail_scene_count_fde}/5 FDE scenes."
+            f"分布表现混合：配对中位数在 ADE {median_scene_count_ade}/5、FDE {median_scene_count_fde}/5 场景改善；"
+            f"配对 p90 在 ADE {tail_scene_count_ade}/5、FDE {tail_scene_count_fde}/5 场景改善。"
         )
     formal_tril_support = (
         len(wins_both) >= 4 and avg["ADE_improve_pct"] > 0 and avg["FDE_improve_pct"] > 0
     )
+    marginal_p90_rows = []
+    for scene in SCENES:
+        row = {"Scene": scene}
+        for metric in ("ADE", "FDE"):
+            values = quantiles.loc[
+                (quantiles["scene"] == scene)
+                & (quantiles["metric"] == metric)
+                & (quantiles["quantile"] == 90)
+            ].set_index("mask_direction")["value"]
+            row[f"{metric}_p90_triu"] = float(values["triu"])
+            row[f"{metric}_p90_tril"] = float(values["tril"])
+            row[f"{metric}_p90_delta_tril_minus_triu"] = float(values["tril"] - values["triu"])
+        marginal_p90_rows.append(row)
+    marginal_p90 = pd.DataFrame(marginal_p90_rows)
+    marginal_p90.loc[len(marginal_p90)] = {
+        "Scene": "AVG",
+        **{
+            column: float(marginal_p90[column].mean())
+            for column in marginal_p90.columns
+            if column != "Scene"
+        },
+    }
+    marginal_p90.to_csv(RESULTS / "p90_scene_comparison.csv", index=False)
 
     q_lines = []
     for scene in SCENES:
@@ -448,11 +469,18 @@ def write_report(summary: pd.DataFrame, paired: pd.DataFrame, validation: dict, 
     near_one_min = float(gaussian["raw_similarity_ge_0.99"].min())
     near_one_max = float(gaussian["raw_similarity_ge_0.99"].max())
     if low_fraction_min >= 0.5:
-        saturation_conclusion = "Raw Gaussian off-diagonal weights are below 1e-4 for a majority of entries in all ten runs."
+        saturation_conclusion = "十个 run 的原始 Gaussian 非对角权重均有过半低于 1e-4，存在广泛饱和。"
     elif low_fraction_max >= 0.5:
-        saturation_conclusion = "Raw Gaussian off-diagonal weights are below 1e-4 for a majority of entries in at least one run, but not all runs."
+        saturation_conclusion = "部分 run 的原始 Gaussian 非对角权重有过半低于 1e-4，存在场景或方向差异。"
     else:
-        saturation_conclusion = "Raw Gaussian off-diagonal weights are below 1e-4 for less than half of entries in every run."
+        saturation_conclusion = "每个 run 中低于 1e-4 的原始 Gaussian 非对角权重均不足一半。"
+    low_by_direction = gaussian.pivot(
+        index="scene", columns="mask_direction", values="raw_similarity_lt_1e-4"
+    )
+    triu_higher_saturation_scenes = int((low_by_direction["triu"] > low_by_direction["tril"]).sum())
+    gaussian_direction_conclusion = (
+        f"低于 1e-4 的比例在 {triu_higher_saturation_scenes}/5 个成对场景中 triu 高于 tril（单 seed 描述性结果）。"
+    )
     paper_gap[["Scene", "tril_ADE_gap", "tril_FDE_gap"]].to_csv(RESULTS / "paper_gap.csv", index=False)
     gaussian_view = gaussian[[
         "scene", "mask_direction", "raw_similarity_mean", "raw_similarity_median",
@@ -461,7 +489,6 @@ def write_report(summary: pd.DataFrame, paired: pd.DataFrame, validation: dict, 
         "raw_similarity_ge_0.9", "raw_similarity_ge_0.99",
         "effective_adjacency_lt_1e-4", "effective_adjacency_ge_0.9",
     ]]
-    gaussian_view.to_csv(RESULTS / "gaussian_statistics.csv", index=False)
     gaussian_format = gaussian_view.copy()
     for column in gaussian_format.columns:
         if column not in ("scene", "mask_direction"):
@@ -500,6 +527,10 @@ Paired delta quantiles (meters; negative favors tril):
 
 {md_table(paired, ['Scene', 'ADE_delta_p50', 'ADE_delta_p75', 'ADE_delta_p90', 'ADE_delta_p95', 'ADE_delta_p99', 'FDE_delta_p50', 'FDE_delta_p75', 'FDE_delta_p90', 'FDE_delta_p95', 'FDE_delta_p99'], digits=4)}
 
+Marginal p90 errors by mask (meters; equal-weight AVG row):
+
+{md_table(marginal_p90, ['Scene', 'ADE_p90_triu', 'ADE_p90_tril', 'ADE_p90_delta_tril_minus_triu', 'FDE_p90_triu', 'FDE_p90_tril', 'FDE_p90_delta_tril_minus_triu'], digits=4)}
+
 Per-sample paired distribution summaries:
 
 {chr(10).join(q_lines)}
@@ -514,7 +545,7 @@ The already validated same-split per-target CV predictions were matched by sampl
 
 ## Temporal Gaussian off-diagonal statistics
 
-`raw_similarity_*` summarizes off-diagonal temporal Gaussian similarities before the binary temporal mask. `effective_adjacency_*` summarizes the corresponding post-mask off-diagonal weights; triu can intentionally zero causal-incompatible edges. Threshold proportions are fractions, not percentages.
+`gaussian_statistics.csv` preserves mean, median, p10, p50, p90, p99 and all four requested threshold proportions for both raw similarity and post-mask effective adjacency. `raw_similarity_*` summarizes off-diagonal temporal Gaussian similarities before the binary temporal mask. `effective_adjacency_*` summarizes the corresponding post-mask off-diagonal weights; triu can intentionally zero causal-incompatible edges. Threshold proportions are fractions, not percentages.
 
 {gaussian_table}
 
@@ -544,7 +575,7 @@ This separates Gaussian saturation from edges removed by mask direction. Compare
 5. **tril 是否超过 CV？** 见上方逐场景 CV 比较；超过需 ADE 和 FDE 同时更低。
 6. **离论文差距？** tril macro 与等权论文参考 {macro_paper_ade:.3f}/{macro_paper_fde:.3f} 的差分别为 {avg['tril_ADE'] - macro_paper_ade:.4f}/{avg['tril_FDE'] - macro_paper_fde:.4f}。
 7. **整体改善还是 tail 改善？** {distribution_conclusion} 这是配对分布的描述性结论，未做跨 seed 显著性检验。
-8. **Gaussian saturation？** {saturation_conclusion} raw off-diagonal 权重小于 1e-4 的比例范围为 {low_fraction_min:.3f}–{low_fraction_max:.3f}，大于等于 0.99 的比例范围为 {near_one_min:.3f}–{near_one_max:.3f}。有效邻接 post-mask 统计单独列出，避免将结构性掩码零值误判为 Gaussian 饱和。
+8. **Gaussian saturation？** {saturation_conclusion} raw off-diagonal 权重小于 1e-4 的比例范围为 {low_fraction_min:.3f}–{low_fraction_max:.3f}，大于等于 0.99 的比例范围为 {near_one_min:.3f}–{near_one_max:.3f}。{gaussian_direction_conclusion} 有效邻接 post-mask 统计单独列出，避免将结构性掩码零值误判为 Gaussian 饱和。
 9. **是否可固定 tril？** {'是，五场景单 seed 结果满足任务设定的候选判据（至少四场景 ADE/FDE 均改善且两项 macro 均下降）；跨 seed 稳健性仍未确认。' if formal_tril_support else '否，当前五场景结果未满足任务设定的候选判据（至少四场景 ADE/FDE 均改善且两项 macro 均下降）。'}
 10. **是否进入 sigma diagnostic？** **否。** 本报告仅验证 mask 方向；仍需依据 baseline 复现量级和多 seed 稳健性另行科研判断。本实验没有运行 sigma sweep。
 

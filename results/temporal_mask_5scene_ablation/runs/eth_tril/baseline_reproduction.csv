@@ -1,0 +1,2 @@
+run_id,sigma,seed,temporal_mask_direction,test_scene,ADE,FDE,best_epoch,best_validation_ADE,test_targets
+sigma3_eth_seed42,3,42,tril,ETH,1.0098817908885673,2.0511101975801638,77,0.45217093658232294,364
