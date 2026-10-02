@@ -1,4 +1,5 @@
 import torch
+import pytest
 
 from research.iggcn.model import IGGCN
 
@@ -48,3 +49,28 @@ def test_temporal_adjacency_rows_allow_only_source_at_or_before_target() -> None
     assert torch.equal(mask, torch.tril(torch.ones_like(mask)))
     assert torch.count_nonzero(adjacency[..., 2, 3:]) == 0
     assert torch.count_nonzero(adjacency[..., 2, :3]) > 0
+
+
+@pytest.mark.parametrize("direction", ["tril", "triu"])
+def test_temporal_mask_direction_is_configurable_without_parameter_changes(direction):
+    model = IGGCN(sigma=3, temporal_mask_direction=direction).eval()
+    observed = torch.randn(1, 8, 2, 2)
+    pedestrian_mask = torch.ones((1, 2), dtype=torch.bool)
+
+    with torch.no_grad():
+        _, diagnostics = model._temporal_graph_branch(
+            model._displacements(observed).transpose(1, 2),
+            pedestrian_mask,
+            return_diagnostics=True,
+        )
+
+    expected = getattr(torch, direction)(torch.ones_like(diagnostics["temporal_causal_mask"]))
+    assert torch.equal(diagnostics["temporal_causal_mask"], expected)
+    assert all(
+        torch.isfinite(parameter).all() for parameter in model.parameters()
+    )
+
+
+def test_invalid_temporal_mask_direction_is_rejected():
+    with pytest.raises(ValueError, match="temporal_mask_direction"):
+        IGGCN(temporal_mask_direction="diagonal")

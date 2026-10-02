@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 import json
 import random
 import shutil
@@ -48,6 +49,7 @@ METRIC_FIELDS = [
     "run_id",
     "sigma",
     "seed",
+    "temporal_mask_direction",
     "test_scene",
     "ADE",
     "FDE",
@@ -57,6 +59,7 @@ METRIC_FIELDS = [
 ]
 SAMPLE_FIELDS = [
     "run_id",
+    "mask_direction",
     "sample_id",
     "scene",
     "component",
@@ -214,13 +217,16 @@ def test_model(
     sigma: int,
     seed: int,
     run_id: str,
+    mask_direction: str,
 ):
     model.eval()
     sample_rows = []
+    temporal_similarity_offdiag = []
+    temporal_adjacency_offdiag = []
     with torch.no_grad():
         for batch in loader:
             observed, future, mask = batch_to_device(batch, device)
-            parameters = model(observed, mask)
+            parameters, diagnostics = model(observed, mask, return_diagnostics=True)
             predicted = model.predict_positions(parameters, observed[:, -1])
             finite_or_raise("test predictions", predicted)
             distances = torch.linalg.vector_norm(
@@ -230,6 +236,17 @@ def test_model(
             prediction_np = predicted.cpu().numpy()
             ground_truth_np = future.transpose(1, 2).cpu().numpy()
             observed_np = observed.transpose(1, 2).cpu().numpy()
+            steps = diagnostics["temporal_similarity"].shape[-1]
+            off_diagonal = ~torch.eye(
+                steps, dtype=torch.bool, device=observed.device
+            )[None, None]
+            valid_off_diagonal = mask[:, :, None, None] & off_diagonal
+            temporal_similarity_offdiag.append(
+                diagnostics["temporal_similarity"][valid_off_diagonal].cpu().numpy()
+            )
+            temporal_adjacency_offdiag.append(
+                diagnostics["temporal_adjacency"][valid_off_diagonal].cpu().numpy()
+            )
             for batch_index, metadata in enumerate(batch["metadata"]):
                 for pedestrian_index, pedestrian_id in enumerate(
                     metadata.pedestrian_ids
@@ -238,6 +255,7 @@ def test_model(
                     fde = float(distances_np[batch_index, pedestrian_index, -1])
                     row = {
                         "run_id": run_id,
+                        "mask_direction": mask_direction,
                         "sample_id": (
                             f"{metadata.scene}:{pedestrian_id}:{metadata.start_frame}"
                         ),
@@ -265,7 +283,28 @@ def test_model(
                     sample_rows.append(row)
     if not sample_rows:
         raise ValueError("test split has no target pedestrians")
-    return sample_rows
+    raw_weights = np.concatenate(temporal_similarity_offdiag)
+    effective_weights = np.concatenate(temporal_adjacency_offdiag)
+
+    def weight_stats(values: np.ndarray, prefix: str) -> dict[str, float | int]:
+        return {
+            f"{prefix}_count": int(values.size),
+            f"{prefix}_mean": float(np.mean(values)),
+            f"{prefix}_median": float(np.median(values)),
+            **{
+                f"{prefix}_p{quantile}": float(np.percentile(values, quantile))
+                for quantile in (10, 50, 90, 99)
+            },
+            f"{prefix}_lt_1e-4": float(np.mean(values < 1e-4)),
+            f"{prefix}_lt_1e-6": float(np.mean(values < 1e-6)),
+            f"{prefix}_ge_0.9": float(np.mean(values >= 0.9)),
+            f"{prefix}_ge_0.99": float(np.mean(values >= 0.99)),
+        }
+
+    return sample_rows, {
+        **weight_stats(raw_weights, "raw_similarity"),
+        **weight_stats(effective_weights, "effective_adjacency"),
+    }
 
 
 def append_csv(path: Path, fieldnames: list[str], rows: list[dict]) -> None:
@@ -300,6 +339,7 @@ def train_fold(
     config_snapshots = output_root / "configs"
     config_snapshots.mkdir(parents=True, exist_ok=True)
     run_id = f"sigma{sigma}_{test_scene.lower()}_seed{seed}"
+    mask_direction = str(training_cfg.get("temporal_mask_direction", "tril"))
     config_snapshot = config_snapshots / f"{run_id}.yaml"
     if not config_snapshot.exists():
         shutil.copy2(config_path, config_snapshot)
@@ -339,6 +379,7 @@ def train_fold(
 
     model = IGGCN(
         sigma=sigma,
+        temporal_mask_direction=mask_direction,
         hidden_dimension=int(training_cfg["hidden_dimension"]),
         tcn_channels=int(training_cfg["tcn_channels"]),
         deformable_layers=int(training_cfg["deformable_convolution_layers"]),
@@ -346,6 +387,12 @@ def train_fold(
         prediction_steps=int(data_cfg["predicted_frames"]),
     ).to(device)
     parameter_count = sum(parameter.numel() for parameter in model.parameters())
+    initial_state_sha256 = hashlib.sha256(
+        b"".join(
+            tensor.detach().cpu().contiguous().numpy().tobytes()
+            for _, tensor in sorted(model.state_dict().items())
+        )
+    ).hexdigest()
     optimizer = torch.optim.Adam(
         model.parameters(), lr=float(training_cfg["learning_rate"])
     )
@@ -394,14 +441,39 @@ def train_fold(
 
     checkpoint = torch.load(checkpoint_path, map_location=device)
     model.load_state_dict(checkpoint["state_dict"])
-    sample_rows = test_model(model, test_loader, device, sigma, seed, run_id)
+    sample_rows, temporal_gaussian_stats = test_model(
+        model, test_loader, device, sigma, seed, run_id, mask_direction
+    )
     sample_path = output_root / "per_sample_errors.csv"
     append_csv(sample_path, SAMPLE_FIELDS, sample_rows)
+    gaussian_stats_path = output_root / "temporal_gaussian_statistics.csv"
+    append_csv(
+        gaussian_stats_path,
+        [
+            "run_id",
+            "scene",
+            "mask_direction",
+            "sigma",
+            "seed",
+            *temporal_gaussian_stats.keys(),
+        ],
+        [
+            {
+                "run_id": run_id,
+                "scene": test_scene,
+                "mask_direction": mask_direction,
+                "sigma": sigma,
+                "seed": seed,
+                **temporal_gaussian_stats,
+            }
+        ],
+    )
     test_scene_rows = [row for row in sample_rows if row["scene"] == test_scene]
     metrics = {
         "run_id": run_id,
         "sigma": sigma,
         "seed": seed,
+        "temporal_mask_direction": mask_direction,
         "test_scene": test_scene,
         "ADE": float(np.mean([row["ADE"] for row in test_scene_rows])),
         "FDE": float(np.mean([row["FDE"] for row in test_scene_rows])),
@@ -424,6 +496,8 @@ def train_fold(
         "epoch": epochs,
         "epochs": epochs,
         "parameter_count": parameter_count,
+        "initial_state_sha256": initial_state_sha256,
+        "temporal_gaussian_stats_path": str(gaussian_stats_path),
         "checkpoint": str(checkpoint_path),
         "config_path": str(config_snapshot),
         "git_commit": git_commit(),

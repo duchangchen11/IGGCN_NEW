@@ -106,6 +106,7 @@ class IGGCN(nn.Module):
     def __init__(
         self,
         sigma: float = 3.0,
+        temporal_mask_direction: str = "tril",
         hidden_dimension: int = 64,
         tcn_channels: int = 24,
         deformable_layers: int = 4,
@@ -115,7 +116,13 @@ class IGGCN(nn.Module):
         super().__init__()
         if sigma not in (1, 2, 3, 4, 5):
             raise ValueError("the diagnostic accepts only fixed sigma in {1,2,3,4,5}")
+        if temporal_mask_direction not in {"tril", "triu"}:
+            raise ValueError(
+                "temporal_mask_direction must be either 'tril' or 'triu', "
+                f"got {temporal_mask_direction!r}"
+            )
         self.sigma = float(sigma)
+        self.temporal_mask_direction = temporal_mask_direction
         self.prediction_steps = prediction_steps
 
         self.spatial_embedding = nn.Linear(2, hidden_dimension)
@@ -209,7 +216,10 @@ class IGGCN(nn.Module):
             dtype=temporal_inputs.dtype,
         )
         # A[target, source] @ X[source] requires source <= target for causality.
-        causal_mask = torch.tril(torch.ones_like(eye_time))
+        mask_factory = (
+            torch.tril if self.temporal_mask_direction == "tril" else torch.triu
+        )
+        causal_mask = mask_factory(torch.ones_like(eye_time))
         temporal_similarity = gaussian_similarity(temporal_maps.unsqueeze(-1), self.sigma)
         temporal_adjacency = temporal_similarity * causal_mask[None, None]
         temporal_adjacency = temporal_adjacency + eye_time[None, None]
