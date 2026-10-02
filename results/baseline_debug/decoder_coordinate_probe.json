@@ -1,0 +1,91 @@
+{
+  "source": "results/iggcn_sigma_diagnostic/per_sample_errors.csv",
+  "prediction_parameterization": "future offsets from last observed position; add last observed xy exactly once; no cumulative integration",
+  "synthetic_decoder_probe": {
+    "last_observed_xy": [
+      1.25,
+      -0.5
+    ],
+    "first_two_mean_offsets": [
+      [
+        0.11999999731779099,
+        -0.07999999821186066
+      ],
+      [
+        -0.15000000596046448,
+        0.05999999865889549
+      ]
+    ],
+    "decoded_first_two_positions": [
+      [
+        1.3700000047683716,
+        -0.5799999833106995
+      ],
+      [
+        1.100000023841858,
+        -0.4399999976158142
+      ]
+    ],
+    "passed": true
+  },
+  "saved_prediction_example": {
+    "sample_id": "ETH:biwi_eth:2:800",
+    "observed_last_xy": [
+      7.17,
+      6.62
+    ],
+    "future_first_xy": [
+      6.47,
+      6.68
+    ],
+    "prediction_first_mean_xy": [
+      6.376697,
+      6.682224
+    ],
+    "predicted_first_offset_from_observed_last": [
+      -0.7933029999999999,
+      0.06222399999999961
+    ],
+    "ground_truth_first_offset_from_observed_last": [
+      -0.7000000000000002,
+      0.05999999999999961
+    ]
+  },
+  "first_step_displacement_from_observed_last_m": {
+    "ground_truth_median": 0.21838008385381594,
+    "prediction_median": 0.16774965977908887,
+    "ground_truth_p95": 0.532536658187959,
+    "prediction_p95": 0.501845846224714
+  },
+  "recomputed_from_saved_trajectories": {
+    "per_scene": {
+      "ETH": {
+        "targets": 364,
+        "ADE": 0.9809373713855629,
+        "FDE": 1.9689264723580902
+      },
+      "HOTEL": {
+        "targets": 1197,
+        "ADE": 1.1988119725344493,
+        "FDE": 2.194623264722846
+      },
+      "UNIV": {
+        "targets": 24334,
+        "ADE": 0.8354737268067848,
+        "FDE": 1.5915903846719428
+      },
+      "ZARA1": {
+        "targets": 2356,
+        "ADE": 0.43485373396888344,
+        "FDE": 0.9702405883937821
+      },
+      "ZARA2": {
+        "targets": 5910,
+        "ADE": 0.3389711772176166,
+        "FDE": 0.7401442839792715
+      }
+    },
+    "max_abs_per_target_ADE_difference": 4.231825273259826e-06,
+    "max_abs_per_target_FDE_difference": 9.999244654501638e-06
+  }
+}

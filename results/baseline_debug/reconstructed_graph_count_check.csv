@@ -1,0 +1,9 @@
+scene,complete_target_windows,original_graph_windows,reconstructed_graph_windows,counts_match
+ETH,364,253,253,True
+HOTEL,1197,445,445,True
+UNIV,24334,947,947,True
+ZARA1,2356,705,705,True
+ZARA2,5910,998,998,True
+HOTEL_fold_train,,2515,2515,True
+HOTEL_fold_validation,,293,293,True
+HOTEL_fold_test,,445,445,True

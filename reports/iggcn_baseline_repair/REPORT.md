@@ -92,7 +92,7 @@ First, existing checkpoints were evaluated with the repaired temporal branch to 
 | ZARA2 | 5,910 | 0.339 / 0.740 | 0.355 / 0.768 | — | 0.338 / 0.737 | 0.428 / 0.871 |
 | **Equal-weight scene mean** | **34,161** | **0.758 / 1.493** | **0.763 / 1.501** | **0.999 / 1.852** (HOTEL+UNIV) | **0.766 / 1.520** | **0.609 / 1.242** |
 
-The same-checkpoint mask-only comparison shows that the causal fix does not itself explain the large baseline gap. Targeted HOTEL/UNIV retraining modestly improves their two-scene mean, but the full retrained run is slightly worse overall than the old baseline: ADE rises by 0.0086 m and FDE by 0.0265 m. HOTEL and UNIV remain substantially worse than constant velocity. The remaining discrepancy must be interpreted alongside the unresolved graph-composition and model-specification choices rather than hidden by a metric change.
+In this earlier full-five-scene revalidation, evaluating the old checkpoints with the causal branch changed the aggregate little, and the full retrained macro result was slightly worse than the old baseline. The later Stage 2 experiment below is a separate, one-variable HOTEL training ablation on 1,197 targets; it finds a large HOTEL effect but does not update or replace the five-scene result. HOTEL and UNIV also remain worse than constant velocity in the saved full-run results.
 
 ## Final repaired σ=3 baseline
 
@@ -111,3 +111,44 @@ The training runner retains its generic filename `sigma_sweep_seed42.csv`; the f
 - Original article: Chen et al., *Digital Signal Processing* 156 (2025), 104862, [DOI 10.1016/j.dsp.2024.104862](https://doi.org/10.1016/j.dsp.2024.104862).
 
 The requested unit tests and repository checks passed at final review: 14 tests passed, Python sources compiled, and `git diff --check` reported no whitespace errors. Checkpoint binaries are retained locally but excluded from the commit; result tables, manifests, configs, diagnostics, and per-sample CSVs are versioned.
+
+## Second-stage baseline debug
+
+This section records the follow-up audit started 2026-10-02. The starting worktree was clean on `fix/iggcn_baseline_reproduction` at `fb54893e750390e6ee343670391df8ed6d5829d3`; see `results/baseline_debug/snapshot_git_status.txt` and `snapshot_git_log.txt`. The original σ=3 CSV, its five `triu` checkpoints, their hashes, root/fold configs, and run manifest were copied into `results/baseline_debug/` before making changes. The saved original mean remains **0.757810/1.493105 m**.
+
+### Evaluation and output coordinates
+
+The implementation evaluates the bivariate-Gaussian mean. Training targets are future positions relative to the final observed point; `predict_positions()` adds that observed point once to every future mean. ADE averages the 12 Euclidean errors, FDE uses the 12th point, and the final headline is an equal-weight mean of the five scene means. It does not sample the Gaussian, use best-of-K, or cumulatively integrate offsets. The paper reports Gaussian NLL and ADE/FDE but does not explicitly say whether point scores use μ, samples, or best-of-K. No evaluation mismatch was confirmed and no metric code was changed. Details are in [evaluation_protocol.md](evaluation_protocol.md).
+
+The coordinate probe used saved sample `ETH:biwi_eth:2:800`: last observed `(7.17, 6.62)`, first future `(6.47, 6.68)`, first prediction mean `(6.376697, 6.682224)`. The prediction offset is `(-0.793303, 0.062224)` relative to the last observation. A synthetic unit test confirms each output is the mean offset plus the last observed xy exactly once and is not cumulative. Recomputing from serialized trajectories reproduces per-target ADE/FDE within `4.3e-6/1.1e-5 m`; the tiny differences are due to CSV coordinate rounding.
+
+### Gaussian interaction
+
+The code implements `exp(-||R_ij-R_ii||²/(2σ²))`. In this implementation, spatial `R_ij` is the one-channel QK scalar after the deformable branch; `R_ii` is the diagonal self-interaction scalar for that same target pedestrian. Temporal `R_ij` is analogously a scalar target-time/source-time value, with its target-time diagonal as reference. Thus the reference is target-specific, but it is a scalar QK-derived value rather than a multi-channel target feature vector. The formula itself matches the paper; whether the paper intended a vector feature norm or scalar interaction map is not specified well enough to call this a confirmed error. No Gaussian change was made.
+
+### Temporal mask and HOTEL comparison
+
+The saved original HOTEL fold used the legacy upper-triangular graph and scored `1.198812/2.194623 m`. Its previous reevaluation with the causal branch scored effectively the same values; the earlier targeted retrain was also a confounded comparison because it changed the deformable branch to causal-prefix processing. For this phase I ran a clean single-line mask ablation using identical reconstructed model inputs, seed 42, σ=3, 150 epochs, and 1,197 identical HOTEL test IDs. The two configs differ only in the mask setting and output paths; the only model-source change between runs was `torch.tril` ↔ `torch.triu`.
+
+| HOTEL mask | Test ADE/FDE | Best epoch | Best validation ADE |
+|---|---:|---:|---:|
+| `triu` | 1.187669 / 2.171230 | 87 | 0.69723 |
+| `tril` | 0.574911 / 1.150546 | 149 | 0.53691 |
+
+`tril` lowers mean ADE/FDE by 51.6%/47.0% on this run. The effect is concentrated in the high-error tail: p90 ADE falls from 3.675 to 1.492 m and p90 FDE from 6.730 to 3.176 m, while the median per-target error is similar and slightly favors `triu`. This supports retaining the branch's causal lower triangle for HOTEL; it does not prove the full five-scene paper result has been restored. The pairwise per-target table and summary are `results/baseline_debug/temporal_mask_hotel_paired_errors.csv` and `temporal_mask_hotel_paired_summary.json`.
+
+The generic runner names the one-row fold files `sigma_sweep_seed42.csv`; both ablation directories contain only one σ=3 HOTEL run, not a sweep.
+
+The external volume at `/media/lrj/54926A1D926A0438` was unmounted, so I reconstructed only complete 8+12 target tracks from the original saved per-target CSV, whose coordinates are serialized to seven significant digits. All five scene graph-window and complete-target counts, plus HOTEL train/validation/test graph counts (2515/293/445), match the original run manifest exactly. Partial context pedestrians are intentionally absent because the existing graph implementation excludes them. The comparison is therefore a controlled model-input ablation, but it is not raw-file validation. cuDNN bitwise determinism is disabled and only seed 42 was run. Both checkpoints, exact configs, run manifests, input-reconstruction manifest, and hashes are saved under `results/baseline_debug/`.
+
+### Dataset graph and constant-velocity checks
+
+`dataset_graph_statistics.csv` records all five scene counts from the prior raw-data audit. Graph nodes are only pedestrians with a complete contiguous 8+12 window. Mean context pedestrians omitted per observed frame are ETH 6.15, HOTEL 4.78, UNIV 15.09, ZARA1 3.05, and ZARA2 3.62. Single-node graph fractions are 72.3%, 32.4%, 0.0%, 14.6%, and 7.7%. This creates a plausible context-composition discrepancy, but the paper does not say whether partially observed pedestrians with incomplete futures belong in the graph. No graph change was made without that protocol evidence.
+
+The same-split constant-velocity ADE/FDE values in `constant_velocity_baseline.csv` are ETH `1.1182/2.3291`, HOTEL `0.2461/0.4666`, UNIV `0.6887/1.3917`, ZARA1 `0.5617/1.1494`, and ZARA2 `0.4280/0.8714`; the equal-scene mean is `0.6085/1.2416`. HOTEL and UNIV IGGCN are worse than this baseline. That is an anomaly to investigate, but it does not by itself prove the raw trajectories or coordinate units are wrong.
+
+### Stage-two conclusion
+
+No evaluation, coordinate-decoder, or Gaussian-formula error has been confirmed. The isolated HOTEL ablation shows a substantial mean and high-tail benefit from the causal lower mask, so the existing `tril` implementation is retained; the temporary `triu` line has been reverted. The improvement is not enough to establish a recovered five-scene baseline: original all-scene ADE/FDE remains `0.757810/1.493105 m`, and no new five-scene run was authorized here. Graph code excludes many potential context pedestrians, but the paper does not define partial-track inclusion. The raw disk is currently unavailable for raw-file validation, and mask effects for the other scenes remain unmeasured. With no confirmed evaluation/Gaussian/decoder bug and no verified graph protocol, stop further model edits; the remaining gap likely includes unpublished protocol or implementation details.
+
+The second-stage decoder probe and unit test were added in `scripts/audit_decoder_coordinates.py` and `tests/test_predict_positions_coordinates.py`. A target-specific Gaussian reference test was added in `tests/test_gaussian_similarity_target_reference.py`; all 16 tests pass.

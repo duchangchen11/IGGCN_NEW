@@ -1,0 +1,78 @@
+{
+  "source_csv": "/home/lrj/IGGCN_Project/results/iggcn_sigma_diagnostic/per_sample_errors.csv",
+  "derived_data_root": "/tmp/iggcn_baseline_debug_reconstructed_20261002b/raw",
+  "purpose": "controlled mask ablation only; complete target tracks reconstructed from saved per-target windows",
+  "source_coordinates_were_serialized_to_significant_digits": 7,
+  "raw_frame_stride": 10,
+  "source_target_windows_by_scene": {
+    "ETH": 364,
+    "HOTEL": 1197,
+    "UNIV": 24334,
+    "ZARA1": 2356,
+    "ZARA2": 5910
+  },
+  "reconstructed_tracks_by_component": {
+    "ETH/biwi_eth": 44,
+    "HOTEL/biwi_hotel": 122,
+    "UNIV/students001": 352,
+    "UNIV/students003": 370,
+    "ZARA1/crowds_zara01": 142,
+    "ZARA2/crowds_zara02": 189
+  },
+  "reconstructed_frame_rows_by_component": {
+    "ETH/biwi_eth": 1200,
+    "HOTEL/biwi_hotel": 3515,
+    "UNIV/students001": 20983,
+    "UNIV/students003": 17069,
+    "ZARA1/crowds_zara01": 5054,
+    "ZARA2/crowds_zara02": 9501
+  },
+  "max_overlap_position_disagreement_m": 0.0,
+  "limits": [
+    "Not the raw Social-STGCNN text data and must not be described as raw-data validation.",
+    "Contains only pedestrians with at least one complete contiguous 8+12 target window.",
+    "Coordinates inherit the precision of saved trajectory strings.",
+    "The HOTEL test scene is held out by the training driver; only the other four scenes enter training."
+  ],
+  "graph_window_counts_verified_against_original_manifest": {
+    "ETH": {
+      "original": 253,
+      "reconstructed": 253,
+      "complete_target_windows": 364,
+      "match": true
+    },
+    "HOTEL": {
+      "original": 445,
+      "reconstructed": 445,
+      "complete_target_windows": 1197,
+      "match": true
+    },
+    "UNIV": {
+      "original": 947,
+      "reconstructed": 947,
+      "complete_target_windows": 24334,
+      "match": true
+    },
+    "ZARA1": {
+      "original": 705,
+      "reconstructed": 705,
+      "complete_target_windows": 2356,
+      "match": true
+    },
+    "ZARA2": {
+      "original": 998,
+      "reconstructed": 998,
+      "complete_target_windows": 5910,
+      "match": true
+    }
+  },
+  "HOTEL_leave_one_scene_out_fold_graph_counts": {
+    "original_train": 2515,
+    "reconstructed_train": 2515,
+    "original_validation": 293,
+    "reconstructed_validation": 293,
+    "original_test": 445,
+    "reconstructed_test": 445,
+    "match": true
+  }
+}

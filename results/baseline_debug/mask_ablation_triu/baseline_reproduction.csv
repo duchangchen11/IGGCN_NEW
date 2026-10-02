@@ -1,0 +1,2 @@
+run_id,sigma,seed,test_scene,ADE,FDE,best_epoch,best_validation_ADE,test_targets
+sigma3_hotel_seed42,3,42,HOTEL,1.1876694409109796,2.1712295545596527,87,0.6972316786340015,1197

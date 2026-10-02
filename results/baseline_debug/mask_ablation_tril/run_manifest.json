@@ -1,0 +1,36 @@
+[
+  {
+    "run_id": "sigma3_hotel_seed42",
+    "sigma": 3,
+    "seed": 42,
+    "test_scene": "HOTEL",
+    "ADE": 0.5749113013965538,
+    "FDE": 1.1505461341060337,
+    "best_epoch": 149,
+    "best_validation_ADE": 0.5369099953109846,
+    "test_targets": 1197,
+    "dataset": "ETH_UCY",
+    "training_scenes": [
+      "ETH",
+      "UNIV",
+      "ZARA1",
+      "ZARA2"
+    ],
+    "graph_windows_train": 2515,
+    "graph_windows_validation": 293,
+    "graph_windows_test": 445,
+    "epoch": 150,
+    "epochs": 150,
+    "parameter_count": 31940,
+    "checkpoint": "/home/lrj/IGGCN_Project/results/baseline_debug/mask_ablation_tril/checkpoints/sigma3_hotel_seed42.pt",
+    "config_path": "/home/lrj/IGGCN_Project/results/baseline_debug/mask_ablation_tril/configs/sigma3_hotel_seed42.yaml",
+    "git_commit": "fb54893e750390e6ee343670391df8ed6d5829d3",
+    "git_dirty_at_run": true,
+    "started_at_utc": "2026-10-02T08:01:48.725760+00:00",
+    "ended_at_utc": "2026-10-02T08:18:18.524132+00:00",
+    "elapsed_seconds": 989.7983898580001,
+    "device": "cuda",
+    "torch_cudnn_deterministic": false,
+    "notes": "Paper-based implementation; assumptions are listed in the versioned YAML and SOURCE_AUDIT.md."
+  }
+]

@@ -1,0 +1,124 @@
+dataset:
+  coordinate_unit: meters
+  graph_window_stride: 1
+  name: ETH_UCY
+  observed_frames: 8
+  predicted_frames: 12
+  protocol: leave_one_scene_out
+  raw_frame_stride: 10
+  raw_root: /tmp/iggcn_baseline_debug_reconstructed_20261002b/raw
+  sample_period_seconds: 0.4
+  scenes:
+    ETH:
+    - biwi_eth.txt
+    HOTEL:
+    - biwi_hotel.txt
+    UNIV:
+    - students001.txt
+    - students003.txt
+    ZARA1:
+    - crowds_zara01.txt
+    ZARA2:
+    - crowds_zara02.txt
+  sliding_window_stride: 1
+  source_commit: 333d3a57b4d2705e129b21aefefa09c79b2b9ae1
+  source_repository: https://github.com/abduallahmohamed/Social-STGCNN
+  test_scenes_per_fold: 1
+  training_scenes_per_fold: 4
+experiment:
+  forbidden_sigma_modes:
+  - learnable
+  - adaptive
+  - state_conditioned
+  name: iggcn_hotel_temporal_mask_ablation
+  phase: single_variable_temporal_mask_ablation
+  seed: 42
+  status: reconstructed_complete_target_tracks_only
+fixed_sigma_sweep:
+  baseline_sigma: 3
+  seeds:
+  - 42
+  status: sigma_3_repair_validation_only
+  stop_reason: Do not run a sigma sweep until the repaired baseline passes the reproduction
+    gate.
+  values:
+  - 3
+outputs:
+  local_checkpoints: results/baseline_debug/mask_ablation_tril/checkpoints
+  reports_root: reports/iggcn_baseline_repair
+  results_root: results/baseline_debug/mask_ablation_tril
+repository:
+  baseline_branch: main
+  experiment_branch: fix/iggcn_baseline_reproduction
+  remote: https://github.com/duchangchen11/IGGCN_NEW.git
+state_features:
+  a_mean: mean_norm_of_observed_velocity_differences_divided_by_sample_period
+  density:
+    boundary: inclusive
+    definition: mean_neighbor_count_within_radius_per_observed_frame
+    exclude_target: true
+    radius_meters: 2.0
+  observed_history_only: true
+  quantile_groups:
+  - 0.33
+  - 0.66
+  turning: cumulative_absolute_wrapped_heading_change_in_radians
+  v_last: norm_of_last_observed_step_divided_by_sample_period
+  v_mean: mean_observed_step_speed
+training:
+  batch_size: 128
+  checkpoint_selection: minimum_validation_ADE_on_last_10_percent_of_training_timeline_per_component_with_19_window_purge
+  cudnn_benchmark: false
+  cudnn_deterministic: false
+  deformable_convolution_layers: 4
+  deformable_kernel_size: 3
+  distribution_parameterization: bivariate_gaussian_mu_log_sigma_tanh_rho
+  epochs: 150
+  hidden_dimension: 64
+  implementation_assumptions:
+  - Paper omits graph tensor feature encoding details; each node uses 2D frame-to-frame
+    displacement.
+  - Paper states temporal causality but describes an upper-triangular matrix without
+    reconciling the axes. In this implementation temporal QK uses rows=target time
+    and columns=source time, so source<=target requires a lower triangle; the deformable
+    branch is run on causal prefixes to prevent future query rows leaking through
+    its 2-D convolution.
+  - Paper omits deformable offset convolution initialization and activation; zero-initialized
+    offset predictor and residual deformable convolution are used without an added
+    activation.
+  - Paper omits TCN channel/kernel/dilation and output projection; use 24 channels,
+    five causal kernel-3 layers with dilations 1,2,4,8,16 and a direct bivariate Gaussian
+    output head. The width keeps the implementation parameter count close to the paper's
+    reported 32.5K.
+  - Paper omits delta; use ReLU after spatial-temporal graph aggregation.
+  - Paper omits the output coordinate parameterization; predict future offsets from
+    the last observed position, which leaves ADE/FDE unchanged under translation.
+  - Paper does not state a checkpoint criterion; select minimum validation ADE from
+    a chronological held-out portion of training clips, with a 19-window purge to
+    avoid overlap.
+  - Paper does not specify batch ordering; use seeded node-count buckets so every
+    graph window is retained while reducing padded spatial-graph work.
+  - Seed 42 fixes model initialization and sample ordering; bitwise GPU-kernel determinism
+    is disabled because the available deterministic cuDNN path was measured to be
+    dramatically slower. The exact kernel policy is recorded in each run manifest.
+  learning_rate: 0.01
+  learning_rate_decay_every_epochs: 50
+  learning_rate_decay_factor: 0.1
+  node_count_bucket_multiplier: 4
+  node_features: observed_position_differences_per_frame
+  optimizer: Adam
+  output_coordinates: future_positions_relative_to_last_observation
+  tcn_channels: 24
+  tcn_kernel_size: 3
+  tcn_layers: 5
+  temporal_causal_padding: true
+  temporal_dilations:
+  - 1
+  - 2
+  - 4
+  - 8
+  - 16
+  temporal_graph_mask: lower_tril_source_at_or_before_target
+  input_data_note: Temporary reconstruction from saved per-target trajectory CSV at
+    seven significant digits; all complete-target graph window counts match original
+    manifests.

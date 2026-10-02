@@ -1,0 +1,82 @@
+{
+  "experiment_name": "hotel_seed42_temporal_mask_tril_vs_triu",
+  "test_scene": "HOTEL",
+  "seed": 42,
+  "sigma": 3,
+  "epochs": 150,
+  "test_targets": 1197,
+  "same_test_sample_ids": true,
+  "only_model_source_change": "torch.tril(...) \u2194 torch.triu(...) at temporal causal mask; causal-prefix processing and all other code/config remained the same",
+  "input_data": "temporary reconstruction from saved original per-target trajectories serialized to seven significant digits; graph-window counts match the original manifest exactly",
+  "metrics": {
+    "tril": {
+      "ADE": 0.5749113013965538,
+      "FDE": 1.1505461341060337,
+      "targets": 1197
+    },
+    "triu": {
+      "ADE": 1.1876694409109796,
+      "FDE": 2.1712295545596527,
+      "targets": 1197
+    }
+  },
+  "delta_tril_minus_triu": {
+    "ADE": -0.6127581395144258,
+    "FDE": -1.020683420453619,
+    "ADE_relative_improvement_pct": 51.59332373193177,
+    "FDE_relative_improvement_pct": 47.009466056233,
+    "targets_tril_lower_ADE": 702,
+    "targets_tril_lower_FDE": 724,
+    "median_paired_ADE_difference": -0.017431527376174927,
+    "median_paired_FDE_difference": -0.048729196190834045
+  },
+  "paired_errors_csv": "results/baseline_debug/temporal_mask_hotel_paired_errors.csv",
+  "caveats": [
+    "cuDNN deterministic mode is disabled; repeated training with the same seed may not be bitwise identical.",
+    "This reconstructed input is only for this controlled ablation; it is not a replacement for raw-data validation."
+  ],
+  "per_target_distribution": {
+    "ADE": {
+      "tril": {
+        "p50": 0.303668349981308,
+        "p90": 1.4919841289520264,
+        "p95": 1.7598083257675174,
+        "p99": 2.172366151809692
+      },
+      "triu": {
+        "p50": 0.23688440024852753,
+        "p90": 3.675391912460327,
+        "p95": 3.9915788173675537,
+        "p99": 4.3798811149597165
+      },
+      "paired_tril_minus_triu": {
+        "p10": -2.0905442953109743,
+        "p25": -1.3293148279190063,
+        "p50": -0.017431527376174927,
+        "p75": 0.017916018143296242,
+        "p90": 0.12905427068471909
+      }
+    },
+    "FDE": {
+      "tril": {
+        "p50": 0.5213192701339722,
+        "p90": 3.175634860992432,
+        "p95": 3.5643535137176516,
+        "p99": 4.519290542602537
+      },
+      "triu": {
+        "p50": 0.39914238452911377,
+        "p90": 6.730283927917482,
+        "p95": 7.3773425102233885,
+        "p99": 8.220004882812498
+      },
+      "paired_tril_minus_triu": {
+        "p10": -3.4483224868774416,
+        "p25": -2.267885446548462,
+        "p50": -0.048729196190834045,
+        "p75": 0.019513994455337524,
+        "p90": 0.24884400367736823
+      }
+    }
+  }
+}
